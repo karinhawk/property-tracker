@@ -1,5 +1,9 @@
-import './App.css';
-
+import './App.scss';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './Containers/Home/Home';
+import LogIn from './Containers/LogIn/LogIn';
+import SignUp from './Containers/SignUp/SignUp';
+import Account from './Containers/Account/Account';
 function App() {
   //register
   // Sign In
@@ -15,11 +19,16 @@ function App() {
 
 
   return (
+    <Router>
     <div className="App">
-      <header className="App-header">
-        Header
-      </header>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/login' element={<LogIn />} />
+        <Route path='/signup' element={<SignUp />} />
+        <Route path='/account' element={<Account />} />
+      </Routes>
     </div>
+    </Router>
   );
 }
 
