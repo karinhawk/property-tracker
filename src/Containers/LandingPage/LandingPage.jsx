@@ -1,55 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
-import { auth } from "../../firebase.js"
 import LogInForm from '../../Components/LogInForm/LogInForm.jsx'
 import SignUpForm from '../../Components/SignUpForm/SignUpForm.jsx'
-import { useAuth } from '../../AuthContext.js'
+import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
 const LandingPage = () => {
-    const {auth} = useAuth()
-    // const [registerEmail, setRegisterEmail] = useState("");
-    // const [registerPassword, setRegisterPassword] = useState("");
-    // const [loginEmail, setLoginEmail] = useState("");
-    // const [loginPassword, setLoginPassword] = useState("");
-    
+    const [showSignUp, setShowSignUp] = useState(false)
 
-    // useEffect(() => {
-    //     onAuthStateChanged(auth, (currentUser) => {
-    //         setUser(currentUser);
-    //     });
 
-    // }, [])
-
-    // const register = async (e) => {
-    //     try {
-    //         e.preventDefault()
-    //         const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
-    //         console.log(user);
-    //     } catch (error) {
-    //         console.log(error.message);
-    //     }
-    // }
-
-    // const login = async (e) => {
-    //     try {
-    //         e.preventDefault()
-    //         const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-    //         console.log(user);
-    //     } catch (error) {
-    //         console.log(error.message);
-    //     }
-    // }
-
-    // const logout = async () => {
-    //     await signOut(auth)
-    // }
-
+    const toggleSignUp = () => {
+        setShowSignUp(true)
+    }
     return (
         <div>
             <h1>LandingPage</h1>
             <LogInForm />
-            <SignUpForm />
-            {/* <h3>{user ? user.email : "not logged in"}</h3> */}
+            <h2><a onClick={toggleSignUp}>Don't have an account? Create One</a></h2>
+            {showSignUp && <SignUpForm />}
+            <Link to="/home">
+                <h1>home</h1>
+            
+            </Link>
         </div>
     )
 }
