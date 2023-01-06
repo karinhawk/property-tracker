@@ -1,9 +1,13 @@
 import './App.scss';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './Containers/Home/Home';
-import LogIn from './Containers/LogIn/LogIn';
+import LandingPage from './Containers/LandingPage/LandingPage';
 import SignUp from './Containers/SignUp/SignUp';
 import Account from './Containers/Account/Account';
+import PrivateRoute from './Components/PrivateRoute';
+import Home from './Containers/Home/Home';
+import {auth} from "./firebase.js"
+import { useState } from 'react';
+import { AuthProvider } from "./AuthContext.js"
 function App() {
   //register
   // Sign In
@@ -16,17 +20,20 @@ function App() {
 
   //all properties attached to a user (someone has to have uploaded it)
   //other users can save another's property
-
+  const [user, setUser] = useState({})
+  // console.log(auth.currentUser);
 
   return (
     <Router>
     <div className="App">
+      <AuthProvider>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<LogIn />} />
+        <Route path='/home' element={<PrivateRoute><Home /></PrivateRoute>}/>
         <Route path='/signup' element={<SignUp />} />
-        <Route path='/account' element={<Account />} />
+        <Route path='/account' element={<PrivateRoute><Account /></PrivateRoute>} />
+        <Route path='/' element={<LandingPage setUser={setUser} user={user} />} />
       </Routes>
+      </AuthProvider>
     </div>
     </Router>
   );
