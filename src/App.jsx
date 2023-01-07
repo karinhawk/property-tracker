@@ -8,6 +8,7 @@ import Home from './Containers/Home/Home';
 import {auth} from "./firebase.js"
 import { useState } from 'react';
 import { AuthProvider } from "./AuthContext.js"
+import Welcome from './Containers/Welcome/Welcome';
 function App() {
   //register
   // Sign In
@@ -28,6 +29,7 @@ function App() {
     <div className="App">
       <AuthProvider>
       <Routes>
+        <Route path='/welcome' element={<PrivateRoute><Welcome/></PrivateRoute>}/>
         <Route path='/home' element={<PrivateRoute><Home /></PrivateRoute>}/>
         <Route path='/signup' element={<SignUp />} />
         <Route path='/account' element={<PrivateRoute><Account /></PrivateRoute>} />

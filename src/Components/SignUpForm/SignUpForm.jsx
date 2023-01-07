@@ -26,7 +26,7 @@ const SignUpForm = () => {
           setLoading(true)
           await signup(registerEmail, registerPassword)
           console.log(registerEmail, registerPassword);
-          navigate("/home")
+          navigate("/welcome")
         } catch (e) {
           setError("Failed to create an account")
           console.log(e.message);

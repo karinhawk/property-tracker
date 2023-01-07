@@ -20,7 +20,7 @@ const LogInForm = () => {
             setLoading(true)
           await login(loginEmail, loginPassword)
           console.log(loginEmail, loginPassword);
-          navigate("/home")
+          navigate("/welcome")
         } catch (e) {
             console.log(e.message);
           setError("Failed to log in")

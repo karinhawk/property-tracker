@@ -1,4 +1,5 @@
 import React from 'react'
+import { useAuth } from '../../AuthContext'
 import YouLoggedIn from '../../Components/YouLoggedIn/YouLoggedIn'
 import YouSignedUp from '../../Components/YouSignedUp/YouSignedUp'
 
@@ -9,17 +10,11 @@ const Home = () => {
     //access db and if user exists on db and has a name show the logged in modal
 
     //usestate for interacted with modal - modal goes away - can then see properties
-
-    //uid
-    //display name
-    //photoUrl??
-    //email
-    //password
-    //access token????!!
+    const {userInfo} = useAuth()
+    
   return (
     <div>Home
-        <YouSignedUp />
-        <YouLoggedIn />
+        
     </div>
   )
 }

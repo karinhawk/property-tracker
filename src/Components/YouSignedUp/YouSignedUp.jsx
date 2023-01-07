@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../AuthContext'
 
 const YouSignedUp = () => {
@@ -6,7 +7,8 @@ const YouSignedUp = () => {
     const [loading, setLoading] = useState(false)
     const [username, setUsername] = useState("")
     const [agencyName, setAgencyName] = useState("")
-    const {addUserInfo} = useAuth()
+    const {addUserInfo, userInfo} = useAuth()
+    const navigate = useNavigate()
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -15,11 +17,12 @@ const YouSignedUp = () => {
           setError("")
           setLoading(true)
           await addUserInfo(username, agencyName)
+          navigate("/home")
         } catch (e) {
           setError("Failed to create an account")
           console.log(e.message);
         }
-    
+        
         setLoading(false)
       }
 
