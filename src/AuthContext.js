@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react"
 import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth, db } from "./firebase.js"
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore"
+import { addDoc, collection, doc, updateDoc, where, getDoc, query, getDocs } from "firebase/firestore"
 
 const AuthContext = React.createContext()
 
@@ -34,8 +34,20 @@ export function AuthProvider({ children }) {
 
   const addUserInfo = async(username, agencyName) => {
     //update existing doc
-    const dbUserRef = doc(db, "users").where('id' == currentUser.id)
-    return await updateDoc(dbUserRef, {
+    const dbUserRef = collection(db, "users")
+    console.log(currentUser.email);
+    const queryRef = query(dbUserRef, where("email", "==", currentUser.email))
+    
+    const querySnapshot = await getDocs(queryRef);
+
+    let docId = "";
+
+    querySnapshot.forEach((doc) => {
+      docId = doc.id;
+    })
+    console.log(docId);
+    
+    return await updateDoc(doc(db, "users", docId),{
         name: username,
         agency: agencyName
     })
