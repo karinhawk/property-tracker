@@ -1,5 +1,6 @@
 import React from 'react'
-import { useAuth } from '../../AuthContext'
+import { Link } from 'react-router-dom'
+import { useAppContext } from '../../AppContext'
 import YouLoggedIn from '../../Components/YouLoggedIn/YouLoggedIn'
 import YouSignedUp from '../../Components/YouSignedUp/YouSignedUp'
 
@@ -9,12 +10,16 @@ const Home = () => {
     //default modal shown here is registered modal
     //access db and if user exists on db and has a name show the logged in modal
 
-    //usestate for interacted with modal - modal goes away - can then see properties
-    const {userInfo} = useAuth()
+
+
+  const {userInfo, logout} = useAppContext()
     
   return (
     <div>Home
-        
+        <button onClick={logout}>logout</button>
+        <Link to="/account">
+        <button>Account</button>
+        </Link>
     </div>
   )
 }

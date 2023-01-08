@@ -7,8 +7,9 @@ import PrivateRoute from './Components/PrivateRoute';
 import Home from './Containers/Home/Home';
 import {auth} from "./firebase.js"
 import { useState } from 'react';
-import { AuthProvider } from "./AuthContext.js"
+import { AuthAndDBProvider } from "./AppContext.js"
 import Welcome from './Containers/Welcome/Welcome';
+import AddProperty from './Containers/AddProperty/AddProperty';
 function App() {
   //register
   // Sign In
@@ -27,15 +28,16 @@ function App() {
   return (
     <Router>
     <div className="App">
-      <AuthProvider>
+      <AuthAndDBProvider>
       <Routes>
         <Route path='/welcome' element={<PrivateRoute><Welcome/></PrivateRoute>}/>
         <Route path='/home' element={<PrivateRoute><Home /></PrivateRoute>}/>
         <Route path='/signup' element={<SignUp />} />
         <Route path='/account' element={<PrivateRoute><Account /></PrivateRoute>} />
+        <Route path='/add_property' element={<PrivateRoute><AddProperty /></PrivateRoute>} />
         <Route path='/' element={<LandingPage setUser={setUser} user={user} />} />
       </Routes>
-      </AuthProvider>
+      </AuthAndDBProvider>
     </div>
     </Router>
   );

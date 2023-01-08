@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useAuth } from '../../AuthContext'
+import { useAppContext } from '../../AppContext'
 
 const YouLoggedIn = () => {
-    const {userInfo} = useAuth()
+    const {userInfo} = useAppContext()
     return (
         <div>
             <h2>Welcome back {userInfo.name} from {userInfo.agency}</h2>

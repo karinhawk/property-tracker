@@ -1,10 +1,10 @@
 import React from 'react'
-import { useAuth } from '../../AuthContext'
+import { useAppContext } from '../../AppContext'
 import YouLoggedIn from '../../Components/YouLoggedIn/YouLoggedIn'
 import YouSignedUp from '../../Components/YouSignedUp/YouSignedUp'
 
 const Welcome = () => {
-    const {userInfo} = useAuth()
+    const {userInfo} = useAppContext()
     
     return (
       <div>

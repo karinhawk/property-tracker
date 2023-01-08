@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../AuthContext';
+import { useAppContext } from '../../AppContext';
 
 const SignUpForm = () => {
-    const {signup} = useAuth()
+    const {signup} = useAppContext()
     const [registerEmail, setRegisterEmail] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");

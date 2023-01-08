@@ -2,17 +2,21 @@ import React, { useContext, useState, useEffect } from "react"
 import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth, db } from "./firebase.js"
 import { addDoc, collection, doc, updateDoc, where, getDoc, query, getDocs } from "firebase/firestore"
+import { useNavigate } from "react-router-dom"
 
-const AuthContext = React.createContext()
+const AppContext = React.createContext()
 
-export function useAuth() {
-  return useContext(AuthContext)
+export function useAppContext() {
+  return useContext(AppContext)
 }
 
-export function AuthProvider({ children }) {
+export function AuthAndDBProvider({ children }) {
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
   const [userInfo, setUserInfo] = useState()
+  const navigate = useNavigate()
+
+  //-------AUTHORIZATION---------
 
   const signup = async(email, password) => {
     const user = await createUserWithEmailAndPassword(auth, email, password)
@@ -66,10 +70,11 @@ export function AuthProvider({ children }) {
     })
     console.log(docId);
     
-    return await updateDoc(doc(db, "users", docId),{
+    await updateDoc(doc(db, "users", docId),{
         name: username,
         agency: agencyName
     })
+    navigate("/")
   }
 
   function logout() {
@@ -80,6 +85,8 @@ export function AuthProvider({ children }) {
     return sendPasswordResetEmail(auth, email)
   }
 
+  //deleteaccount
+
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -88,6 +95,47 @@ export function AuthProvider({ children }) {
 
     }, [])
 
+    //-------PROPERTIES DATABASE---------
+
+    //addproperty
+    const addProperty = async(address, desc, price, bedrooms, bathrooms, receptions) => {
+      //date listed
+      const date = new Date();
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      const dateListed = `${day}-${month}-${year}`
+      console.log(dateListed);
+      console.log(db);
+      console.log(userInfo.agency);
+      const propertyInfo = {
+        address: address,
+        desc: desc,
+        price: price,
+        bedrooms: bedrooms,
+        bathrooms: bathrooms,
+        receptions: receptions,
+        dateListed: dateListed,
+        agency: userInfo.agency,
+        // images: []
+      }
+      console.log(propertyInfo);
+   
+      const dbRef = collection(db, "properties")
+      console.log(dbRef);
+
+      return await addDoc(dbRef, propertyInfo).then(console.log("success!"))
+    
+    }
+
+    //updateproperty - for adding form stuff
+
+    //deleteproperty
+
+    //addimage??
+
+    //saveproperty = updatedoc with agent email attached (as unique identifier)
+
   const value = {
     currentUser,
     userInfo,
@@ -95,12 +143,13 @@ export function AuthProvider({ children }) {
     signup,
     addUserInfo,
     logout,
-    resetPassword
+    resetPassword,
+    addProperty
   }
 
   return (
-    <AuthContext.Provider value={value}>
+    <AppContext.Provider value={value}>
       {children}
-    </AuthContext.Provider>
+    </AppContext.Provider>
   )
 }

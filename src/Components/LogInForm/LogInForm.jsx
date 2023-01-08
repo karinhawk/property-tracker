@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../AuthContext'
+import { useAppContext } from '../../AppContext'
 
 const LogInForm = () => {
-    const {login, currentUser, logout} = useAuth()
+    const {login, currentUser, logout} = useAppContext()
         const [loginEmail, setLoginEmail] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
     const [error, setError] = useState("")

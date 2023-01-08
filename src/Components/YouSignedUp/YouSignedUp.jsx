@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../../AuthContext'
+import { useAppContext } from '../../AppContext'
 
 const YouSignedUp = () => {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const [username, setUsername] = useState("")
     const [agencyName, setAgencyName] = useState("")
-    const {addUserInfo, userInfo} = useAuth()
+    const {addUserInfo, userInfo} = useAppContext()
     const navigate = useNavigate()
 
     async function handleSubmit(e) {
