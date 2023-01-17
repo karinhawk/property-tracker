@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { AuthAndDBProvider } from "./AppContext.js"
 import Welcome from './Containers/Welcome/Welcome';
 import AddProperty from './Containers/AddProperty/AddProperty';
+import PropertyList from './Components/PropertyList/PropertyList';
 function App() {
   //register
   // Sign In
@@ -34,7 +35,8 @@ function App() {
         <Route path='/home' element={<PrivateRoute><Home /></PrivateRoute>}/>
         <Route path='/signup' element={<SignUp />} />
         <Route path='/account' element={<PrivateRoute><Account /></PrivateRoute>} />
-        <Route path='/add_property' element={<PrivateRoute><AddProperty /></PrivateRoute>} />
+        <Route path='/add-property' element={<PrivateRoute><AddProperty /></PrivateRoute>} />
+        <Route path='/all-properties' element={<PrivateRoute><PropertyList/></PrivateRoute>} />
         <Route path='/' element={<LandingPage setUser={setUser} user={user} />} />
       </Routes>
       </AuthAndDBProvider>

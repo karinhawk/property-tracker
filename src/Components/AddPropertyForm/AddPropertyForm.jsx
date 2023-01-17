@@ -8,7 +8,7 @@ const AddPropertyForm = ({userInfo}) => {
             //date listed - generate date and time to put into db
             //agency - from users db
             //MUST have address, desc, price, bedrooms, bathrooms, r rooms, agency, and date listed
-    const {addProperty} = useAppContext()
+    const {addProperty, uploadImage} = useAppContext()
     const [street, setStreet] = useState("");
     const [city, setCity] = useState("");
     const [postcode, setPostcode] = useState("");
@@ -17,20 +17,24 @@ const AddPropertyForm = ({userInfo}) => {
     const [bedrooms, setBedrooms] = useState("");
     const [bathrooms, setBathrooms] = useState("");
     const [receptions, setReceptions] = useState("");
+    const [imageUpload, setImageUpload] = useState(null);
 
             const handleSubmit = (e) => {
                 e.preventDefault()
                 console.log(userInfo);
-                if(street != "" & city != "" & postcode != "" & desc != "" & price != "" & bedrooms != "" & bathrooms != "" & receptions != ""){
+                if(street !== "" & city !== "" & postcode !== "" & desc !== "" & price !== "" & bedrooms !== "" & bathrooms !== "" & receptions !== "" & imageUpload !== null){
                     try{
                         const address = `${street}, ${city}, ${postcode.toUpperCase()}`
                         console.log(address, desc, price, bedrooms, bathrooms, receptions);
-                        addProperty(address, desc, price, bedrooms, bathrooms, receptions)
+                        uploadImage(imageUpload).then((url) => {addProperty(address, desc, price, bedrooms, bathrooms, receptions, url);
+                        })                    
                     }catch(error){
                         console.log(error.message)
                     }
                 }
             }
+
+
     return (
         <div>
             <form className='form' onSubmit={handleSubmit}>
@@ -53,6 +57,8 @@ const AddPropertyForm = ({userInfo}) => {
                 <input type="text" name="bathrooms" id="bathrooms" onChange={(e) => {setBathrooms(e.target.value)}}/>
                 <label htmlFor="receptions">Reception Rooms</label>
                 <input type="text" name="receptions" id="receptions" onChange={(e) => {setReceptions(e.target.value)}}/>
+                <label htmlFor="image">Property picture</label>
+                <input type="file" onChange={(e) => {setImageUpload(e.target.files[0])}}/>
                 <button>Add Property</button>
             </form>
         </div>

@@ -20,6 +20,9 @@ const Home = () => {
         <Link to="/account">
         <button>Account</button>
         </Link>
+        <Link to="/all-properties">
+        <button>view all properties</button>
+        </Link>
     </div>
   )
 }

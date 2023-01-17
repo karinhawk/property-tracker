@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react"
 import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth'
-import { auth, db } from "./firebase.js"
+import { auth, db, storage } from "./firebase.js"
 import { addDoc, collection, doc, updateDoc, where, getDoc, query, getDocs } from "firebase/firestore"
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom"
 
 const AppContext = React.createContext()
@@ -14,6 +15,7 @@ export function AuthAndDBProvider({ children }) {
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
   const [userInfo, setUserInfo] = useState()
+  const [imgUrl, setImgUrl] = useState()
   const navigate = useNavigate()
 
   //-------AUTHORIZATION---------
@@ -37,7 +39,6 @@ export function AuthAndDBProvider({ children }) {
   const login = async(email, password) => {
     signInWithEmailAndPassword(auth, email, password)
     const dbUserRef = collection(db, "users")
-    console.log(currentUser.email);
     const queryRef = query(dbUserRef, where("email", "==", currentUser.email))
     
     const querySnapshot = await getDocs(queryRef);
@@ -51,14 +52,12 @@ export function AuthAndDBProvider({ children }) {
         password: doc.data().password,
         // profilePicture: doc.profilePicture
       })
-      console.log(userInfo);
     })
   }
 
   const addUserInfo = async(username, agencyName) => {
     //update existing doc
     const dbUserRef = collection(db, "users")
-    console.log(currentUser.email);
     const queryRef = query(dbUserRef, where("email", "==", currentUser.email))
     
     const querySnapshot = await getDocs(queryRef);
@@ -68,7 +67,6 @@ export function AuthAndDBProvider({ children }) {
     querySnapshot.forEach((doc) => {
       docId = doc.id;
     })
-    console.log(docId);
     
     await updateDoc(doc(db, "users", docId),{
         name: username,
@@ -98,16 +96,13 @@ export function AuthAndDBProvider({ children }) {
     //-------PROPERTIES DATABASE---------
 
     //addproperty
-    const addProperty = async(address, desc, price, bedrooms, bathrooms, receptions) => {
+    const addProperty = async(address, desc, price, bedrooms, bathrooms, receptions, url) => {
       //date listed
       const date = new Date();
       const day = date.getDate();
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
       const dateListed = `${day}-${month}-${year}`
-      console.log(dateListed);
-      console.log(db);
-      console.log(userInfo.agency);
       const propertyInfo = {
         address: address,
         desc: desc,
@@ -117,15 +112,35 @@ export function AuthAndDBProvider({ children }) {
         receptions: receptions,
         dateListed: dateListed,
         agency: userInfo.agency,
-        // images: []
+        image: url
       }
-      console.log(propertyInfo);
    
       const dbRef = collection(db, "properties")
-      console.log(dbRef);
 
       return await addDoc(dbRef, propertyInfo).then(console.log("success!"))
     
+    }
+
+    //uploadImage
+    const uploadImage = async (imageUpload) => {
+      const imageRef = ref(storage, `images/${imageUpload.name}`)
+      await uploadBytes(imageRef, imageUpload).then(() => {
+        getDownloadURL(imageRef).then((url) => {
+          setImgUrl(url)
+        })
+      })
+      return imgUrl;
+    }
+
+    //getproperty to view - into array!!
+    const getAllProperties = async() => {
+      const propertiesArr = [];
+      const querySnapshot = await getDocs(collection(db, "properties"))
+      querySnapshot.forEach((doc) => {
+        propertiesArr.push(doc.data())
+      });
+      console.log(propertiesArr);
+      return propertiesArr;
     }
 
     //updateproperty - for adding form stuff
@@ -144,7 +159,9 @@ export function AuthAndDBProvider({ children }) {
     addUserInfo,
     logout,
     resetPassword,
-    addProperty
+    addProperty,
+    uploadImage,
+    getAllProperties
   }
 
   return (
