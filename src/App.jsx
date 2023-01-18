@@ -13,6 +13,7 @@ import AddProperty from './Containers/AddProperty/AddProperty';
 import PropertyList from './Components/PropertyList/PropertyList';
 import Layout from './Containers/Layout/Layout';
 import PropertiesPage from './Containers/PropertiesPage/PropertiesPage';
+import PropertyPage from './Containers/PropertyPage/PropertyPage';
 function App() {
   //register
   // Sign In
@@ -40,6 +41,7 @@ function App() {
         <Route path='/account' element={<PrivateRoute><Account /></PrivateRoute>} />
         <Route path='/add-property' element={<PrivateRoute><AddProperty /></PrivateRoute>} />
         <Route path='/all-properties' element={<PrivateRoute><PropertiesPage/></PrivateRoute>} />
+        <Route path='/:address' element={<PrivateRoute><PropertyPage/></PrivateRoute>} />
         <Route path='/' element={<LandingPage setUser={setUser} user={user} />} />
       </Routes>
       </Layout>

@@ -19,6 +19,7 @@ export function AuthAndDBProvider({ children }) {
   const [allProperties, setAllProperties] = useState([])
   const [savedProperties, setSavedProperties] = useState();
   const [agencyProperties, setAgencyProperties] = useState();
+  const [chosenProperty, setChosenProperty] = useState()
   const navigate = useNavigate()
 
   //-------AUTHORIZATION---------
@@ -151,6 +152,19 @@ export function AuthAndDBProvider({ children }) {
       setAllProperties(propertiesArr)
     }
 
+    const getSingleProperty = async(address) => {
+      const dbPropertiesRef = collection(db, "properties", )
+      const queryRef = query(dbPropertiesRef, where("address", "==", address))
+      
+      const querySnapshot = await getDocs(queryRef);
+  
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data());
+        setChosenProperty(doc.data())
+      })
+      return chosenProperty
+    }
+
     //updateproperty - for adding form stuff
 
     //deleteproperty
@@ -211,6 +225,7 @@ export function AuthAndDBProvider({ children }) {
     allProperties,
     savedProperties,
     agencyProperties,
+    chosenProperty,
     login,
     signup,
     addUserInfo,
@@ -222,7 +237,8 @@ export function AuthAndDBProvider({ children }) {
     getAllProperties,
     getAllPropertiesFromAgency,
     saveProperty,
-    getSavedProperties
+    getSavedProperties,
+    getSingleProperty
   }
 
   return (

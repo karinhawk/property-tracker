@@ -1,14 +1,19 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { useAppContext } from '../../AppContext'
 
 const PropertyCard = ({dateListed, agency, address, desc, price, bedrooms, bathrooms, receptions, image}) => {
 
-  const {saveProperty} = useAppContext()
+  const {saveProperty, getSingleProperty} = useAppContext()
 
   return (
     <div>
+      <Link to={`/:${address}`} state={address}>
       <img src={image}></img>
+      </Link>
+      <Link to={`/:${address}`} state={address}>
       <h2>{address}</h2>
+      </Link>
       <h2>{price}</h2>
       <h3>{desc}</h3>
       <h3>{bedrooms}</h3>
