@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
-import { useAppContext } from '../../AppContext';
 import PropertyCard from '../PropertyCard/PropertyCard';
 
-const PropertyList = () => {
+const PropertyList = ({propertyArr}) => {
 
 //design to hold ALL properties - filters can pass down
 //map property cards - with dif conditions
@@ -10,18 +9,12 @@ const PropertyList = () => {
 //2. agent's own properties
 //3. agent's saved properties
 
-const {allProperties, getAllProperties} = useAppContext()
-
-useEffect(() => {
-  getAllProperties()
-}, [])
-console.log(allProperties);
-
+console.log(propertyArr);
 
   return (
       <div>
-        {allProperties != undefined & allProperties.length != 0 ? allProperties.map((property, index) => {
-          console.log(property.dateListed, property.address, property.image);
+        {propertyArr != undefined & propertyArr.length != 0 ? propertyArr.map((property, index) => {
+          
           if(Object.keys(property).length === 0) return <h2>no data</h2>
           return (
             <div key={index}>

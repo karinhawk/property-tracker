@@ -12,6 +12,7 @@ import Welcome from './Containers/Welcome/Welcome';
 import AddProperty from './Containers/AddProperty/AddProperty';
 import PropertyList from './Components/PropertyList/PropertyList';
 import Layout from './Containers/Layout/Layout';
+import PropertiesPage from './Containers/PropertiesPage/PropertiesPage';
 function App() {
   //register
   // Sign In
@@ -25,7 +26,7 @@ function App() {
   //all properties attached to a user (someone has to have uploaded it)
   //other users can save another's property
   const [user, setUser] = useState({})
-  // console.log(auth.currentUser);
+
 
   return (
     <Router>
@@ -38,7 +39,7 @@ function App() {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/account' element={<PrivateRoute><Account /></PrivateRoute>} />
         <Route path='/add-property' element={<PrivateRoute><AddProperty /></PrivateRoute>} />
-        <Route path='/all-properties' element={<PrivateRoute><PropertyList/></PrivateRoute>} />
+        <Route path='/all-properties' element={<PrivateRoute><PropertiesPage/></PrivateRoute>} />
         <Route path='/' element={<LandingPage setUser={setUser} user={user} />} />
       </Routes>
       </Layout>

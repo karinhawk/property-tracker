@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react"
 import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth, db, storage } from "./firebase.js"
-import { addDoc, collection, doc, updateDoc, where, getDoc, query, getDocs } from "firebase/firestore"
+import { addDoc, collection, doc, updateDoc, where, getDoc, query, getDocs, FieldValue, arrayUnion } from "firebase/firestore"
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom"
 
@@ -17,6 +17,8 @@ export function AuthAndDBProvider({ children }) {
   const [userInfo, setUserInfo] = useState()
   const [imgUrl, setImgUrl] = useState()
   const [allProperties, setAllProperties] = useState([])
+  const [savedProperties, setSavedProperties] = useState();
+  const [agencyProperties, setAgencyProperties] = useState();
   const navigate = useNavigate()
 
   //-------AUTHORIZATION---------
@@ -76,6 +78,10 @@ export function AuthAndDBProvider({ children }) {
     navigate("/")
   }
 
+  const getUserInfo = () => {
+
+  }
+
   function logout() {
     return signOut(auth)
   }
@@ -113,7 +119,8 @@ export function AuthAndDBProvider({ children }) {
         receptions: receptions,
         dateListed: dateListed,
         agency: userInfo.agency,
-        image: url
+        image: url,
+        saved_by: []
       }
    
       const dbRef = collection(db, "properties")
@@ -151,19 +158,71 @@ export function AuthAndDBProvider({ children }) {
     //addimage??
 
     //saveproperty = updatedoc with agent email attached (as unique identifier)
+    const saveProperty = async(address) => {
+      const dbPropertiesRef = collection(db, "properties", )
+      const queryRef = query(dbPropertiesRef, where("address", "==", address))
+      
+      const querySnapshot = await getDocs(queryRef);
+  
+      let docId = "";
+  
+      querySnapshot.forEach((doc) => {
+        docId = doc.id;
+        console.log(docId);
+      })
+      
+      await updateDoc(doc(db, "properties", docId),{
+          saved_by: arrayUnion(userInfo.email)
+      })
+    }
+
+    //get agency properties
+    const getAllPropertiesFromAgency = async() => {
+      const propertiesArr = [];
+      console.log(userInfo.agency);
+
+      const dbPropertiesRef = collection(db, "properties")
+      const queryRef = query(dbPropertiesRef, where("agency", "==", userInfo.agency))
+      
+      const querySnapshot = await getDocs(queryRef);
+      querySnapshot.forEach((doc) => {
+        return propertiesArr.push(doc.data())
+      });
+      console.log(propertiesArr);
+      return setAgencyProperties(propertiesArr)
+    }
+    //get all properties saved by user
+    const getSavedProperties = async() => {
+      const propertiesArr = [];
+      const dbPropertiesRef = collection(db, "properties")
+      const queryRef = query(dbPropertiesRef, where("saved_by", "array-contains", userInfo.email))
+      console.log(userInfo.email);
+      const querySnapshot = await getDocs(queryRef);
+      querySnapshot.forEach((doc) => {
+        return propertiesArr.push(doc.data())
+      });
+      console.log(propertiesArr);
+      return setSavedProperties(propertiesArr)
+    }
 
   const value = {
     currentUser,
     userInfo,
+    allProperties,
+    savedProperties,
+    agencyProperties,
     login,
     signup,
     addUserInfo,
     logout,
     resetPassword,
     addProperty,
+    saveProperty,
     uploadImage,
     getAllProperties,
-    allProperties
+    getAllPropertiesFromAgency,
+    saveProperty,
+    getSavedProperties
   }
 
   return (
