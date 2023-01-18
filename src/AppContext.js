@@ -16,6 +16,7 @@ export function AuthAndDBProvider({ children }) {
   const [loading, setLoading] = useState(true)
   const [userInfo, setUserInfo] = useState()
   const [imgUrl, setImgUrl] = useState()
+  const [allProperties, setAllProperties] = useState([])
   const navigate = useNavigate()
 
   //-------AUTHORIZATION---------
@@ -137,10 +138,10 @@ export function AuthAndDBProvider({ children }) {
       const propertiesArr = [];
       const querySnapshot = await getDocs(collection(db, "properties"))
       querySnapshot.forEach((doc) => {
-        propertiesArr.push(doc.data())
+        return propertiesArr.push(doc.data())
       });
       console.log(propertiesArr);
-      return propertiesArr;
+      setAllProperties(propertiesArr)
     }
 
     //updateproperty - for adding form stuff
@@ -161,7 +162,8 @@ export function AuthAndDBProvider({ children }) {
     resetPassword,
     addProperty,
     uploadImage,
-    getAllProperties
+    getAllProperties,
+    allProperties
   }
 
   return (

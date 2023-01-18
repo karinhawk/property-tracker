@@ -12,7 +12,6 @@ const Account = () => {
               <Link to="/add-property">
         <button>Add Property</button>
         </Link>
-        <button onClick={getAllProperties}>view all properites in log</button>
     </div>
   )
 }

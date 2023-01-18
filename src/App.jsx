@@ -11,6 +11,7 @@ import { AuthAndDBProvider } from "./AppContext.js"
 import Welcome from './Containers/Welcome/Welcome';
 import AddProperty from './Containers/AddProperty/AddProperty';
 import PropertyList from './Components/PropertyList/PropertyList';
+import Layout from './Containers/Layout/Layout';
 function App() {
   //register
   // Sign In
@@ -30,6 +31,7 @@ function App() {
     <Router>
     <div className="App">
       <AuthAndDBProvider>
+        <Layout>
       <Routes>
         <Route path='/welcome' element={<PrivateRoute><Welcome/></PrivateRoute>}/>
         <Route path='/home' element={<PrivateRoute><Home /></PrivateRoute>}/>
@@ -39,6 +41,7 @@ function App() {
         <Route path='/all-properties' element={<PrivateRoute><PropertyList/></PrivateRoute>} />
         <Route path='/' element={<LandingPage setUser={setUser} user={user} />} />
       </Routes>
+      </Layout>
       </AuthAndDBProvider>
     </div>
     </Router>

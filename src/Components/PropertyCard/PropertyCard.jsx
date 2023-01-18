@@ -1,10 +1,13 @@
 import React from 'react'
 
-const PropertyCard = (dateListed, agency, address, desc, bedrooms, bathrooms, receptions, image) => {
+const PropertyCard = ({dateListed, agency, address, desc, price, bedrooms, bathrooms, receptions, image}) => {
+
+  // console.log(dateListed, agency, address, desc, price, bedrooms, bathrooms, receptions, image);
   return (
     <div>
       <img src={image}></img>
       <h2>{address}</h2>
+      <h2>{price}</h2>
       <h3>{desc}</h3>
       <h3>{bedrooms}</h3>
       <h3>{bathrooms}</h3>
