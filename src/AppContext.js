@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react"
 import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth, db, storage } from "./firebase.js"
-import { addDoc, collection, doc, updateDoc, where, getDoc, query, getDocs, FieldValue, arrayUnion } from "firebase/firestore"
+import { addDoc, collection, doc, updateDoc, where, getDoc, query, getDocs, FieldValue, arrayUnion, deleteDoc, arrayRemove } from "firebase/firestore"
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom"
 
@@ -19,7 +19,8 @@ export function AuthAndDBProvider({ children }) {
   const [allProperties, setAllProperties] = useState([])
   const [savedProperties, setSavedProperties] = useState();
   const [agencyProperties, setAgencyProperties] = useState();
-  const [chosenProperty, setChosenProperty] = useState()
+  const [chosenProperty, setChosenProperty] = useState();
+  // const [isPropertySaved, setIsPropertySaved] = useState(false);
   const navigate = useNavigate()
 
   //-------AUTHORIZATION---------
@@ -79,9 +80,6 @@ export function AuthAndDBProvider({ children }) {
     navigate("/")
   }
 
-  const getUserInfo = () => {
-
-  }
 
   function logout() {
     return signOut(auth)
@@ -91,9 +89,31 @@ export function AuthAndDBProvider({ children }) {
     return sendPasswordResetEmail(auth, email)
   }
 
-  //deleteaccount
+  //deleteaccount - ask for password to delete - if correct password in form and db then delete yay!
+  const deleteAccount = async() => {
+    const dbUserRef = collection(db, "users")
+    const queryRef = query(dbUserRef, where("email", "==", currentUser.email))
+    
+    const querySnapshot = await getDocs(queryRef);
 
+    let docId = "";
 
+    querySnapshot.forEach((doc) => {
+      docId = doc.id;
+    })
+          //delete properties by account
+      deletePropertyByAccount();
+
+      //remove saved
+      unsaveProperty();
+
+      //do this last    
+
+    await deleteDoc(doc(db, "cities", docId));
+    navigate("/signup-signin")
+  }
+
+//need to uselocal storge to persist across refreshes
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             setCurrentUser(user);
@@ -166,10 +186,31 @@ export function AuthAndDBProvider({ children }) {
     }
 
     //updateproperty - for adding form stuff
+    const unsaveProperty = async(address) => {
+      const dbPropertiesRef = collection(db, "properties", )
+      const queryRef = query(dbPropertiesRef, where("address", "==", address))
+      
+      const querySnapshot = await getDocs(queryRef);
+  
+      let docId = "";
+  
+      querySnapshot.forEach((doc) => {
+        docId = doc.id;
+        console.log(docId);
+      })
+  
+      await updateDoc(doc(db, "properties", docId),{
+          saved_by: arrayRemove(userInfo.email)
+      })
+      // checkIfPropertySaved(address)
+    }
 
     //deleteproperty
 
-    //addimage??
+    //deletePropertybyaccount
+    const deletePropertyByAccount = async() => {
+
+    }
 
     //saveproperty = updatedoc with agent email attached (as unique identifier)
     const saveProperty = async(address) => {
@@ -184,10 +225,28 @@ export function AuthAndDBProvider({ children }) {
         docId = doc.id;
         console.log(docId);
       })
-      
+  
       await updateDoc(doc(db, "properties", docId),{
           saved_by: arrayUnion(userInfo.email)
       })
+      // checkIfPropertySaved(address)
+      //button relies on checking if the property has been saved by THAT user
+    }
+
+    const checkIfPropertySaved = async(address) => {
+      //input user email
+      //if currentuser email exists on property - return true
+      const propertiesArr = [];
+      const dbPropertiesRef = collection(db, "properties", )
+      const queryRef = query(dbPropertiesRef, where("address", "==", address))
+
+      const querySnapshot = await getDocs(queryRef);
+      querySnapshot.forEach((doc) => {
+        return propertiesArr.push(doc.data())
+      });
+      console.log(propertiesArr[0].saved_by.includes(userInfo.email));
+      // console.log(propertiesArr[0].saved_by.includes(userInfo.email) ? true : false);
+      return propertiesArr[0].saved_by.includes(userInfo.email) ? true : false;
     }
 
     //get agency properties
@@ -231,8 +290,11 @@ export function AuthAndDBProvider({ children }) {
     addUserInfo,
     logout,
     resetPassword,
+    deleteAccount,
     addProperty,
     saveProperty,
+    unsaveProperty,
+    checkIfPropertySaved,
     uploadImage,
     getAllProperties,
     getAllPropertiesFromAgency,

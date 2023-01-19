@@ -1,8 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAppContext } from '../../AppContext'
-import YouLoggedIn from '../../Components/YouLoggedIn/YouLoggedIn'
-import YouSignedUp from '../../Components/YouSignedUp/YouSignedUp'
 
 const Home = () => {
     //post account to db without name 

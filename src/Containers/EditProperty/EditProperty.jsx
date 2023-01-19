@@ -1,8 +1,11 @@
 import React from 'react'
+import EditPropertyForm from '../../Components/EditPropertyForm/EditPropertyForm'
 
 const EditProperty = () => {
   return (
-    <div>EditProperty</div>
+    <div>EditProperty
+      <EditPropertyForm />
+    </div>
   )
 }
 

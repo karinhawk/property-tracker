@@ -14,6 +14,7 @@ import PropertyList from './Components/PropertyList/PropertyList';
 import Layout from './Containers/Layout/Layout';
 import PropertiesPage from './Containers/PropertiesPage/PropertiesPage';
 import PropertyPage from './Containers/PropertyPage/PropertyPage';
+import EditProperty from "./Containers/EditProperty/EditProperty";
 function App() {
   //register
   // Sign In
@@ -36,13 +37,14 @@ function App() {
         <Layout>
       <Routes>
         <Route path='/welcome' element={<PrivateRoute><Welcome/></PrivateRoute>}/>
-        <Route path='/home' element={<PrivateRoute><Home /></PrivateRoute>}/>
         <Route path='/signup' element={<SignUp />} />
         <Route path='/account' element={<PrivateRoute><Account /></PrivateRoute>} />
         <Route path='/add-property' element={<PrivateRoute><AddProperty /></PrivateRoute>} />
+        <Route path='/edit-property' element={<PrivateRoute><EditProperty /></PrivateRoute>} />
         <Route path='/all-properties' element={<PrivateRoute><PropertiesPage/></PrivateRoute>} />
         <Route path='/:address' element={<PrivateRoute><PropertyPage/></PrivateRoute>} />
-        <Route path='/' element={<LandingPage setUser={setUser} user={user} />} />
+        <Route path='/signup-signin' element={<LandingPage setUser={setUser} user={user} />} />
+        <Route path='/' element={<PrivateRoute><Home /></PrivateRoute>}/>
       </Routes>
       </Layout>
       </AuthAndDBProvider>

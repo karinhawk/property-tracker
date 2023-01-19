@@ -1,10 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppContext } from '../../AppContext'
 
 const PropertyCard = ({dateListed, agency, address, desc, price, bedrooms, bathrooms, receptions, image}) => {
 
-  const {saveProperty, getSingleProperty} = useAppContext()
+  const {saveProperty, unsaveProperty, checkIfPropertySaved} = useAppContext()
+  //useffect fire check if saved
+  const [isSaved, setIsSaved] = useState()
+
+  // useEffect(() => {
+  //   checkIfPropertySaved(address).then((result) => {
+  //     setIsSaved(result)
+  //   })
+  //   console.log(isSaved);
+  // }, [])
+  
 
   return (
     <div>
@@ -21,7 +31,17 @@ const PropertyCard = ({dateListed, agency, address, desc, price, bedrooms, bathr
       <h3>{receptions}</h3>
       <h3>{agency}</h3>
       <h3>{dateListed}</h3>
-      <button onClick={() => saveProperty(address)}>save property</button>
+      <button onClick={isSaved ? 
+        () => {unsaveProperty(address).then(checkIfPropertySaved(address).then((result) => {
+          setIsSaved(result)
+        }))}
+         : () => {saveProperty(address).then(checkIfPropertySaved(address).then((result) => {
+          setIsSaved(result)
+        }))}}
+         >{isSaved ? "unsave" : "save"} property</button>
+         <Link to={`/edit-property`}>
+         <button>Edit property</button>
+         </Link>
     </div>
   )
 }
