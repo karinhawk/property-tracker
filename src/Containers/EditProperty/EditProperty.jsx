@@ -4,7 +4,7 @@ import EditPropertyForm from '../../Components/EditPropertyForm/EditPropertyForm
 const EditProperty = () => {
   return (
     <div>EditProperty
-      <EditPropertyForm />
+      {/* <EditPropertyForm /> */}
     </div>
   )
 }

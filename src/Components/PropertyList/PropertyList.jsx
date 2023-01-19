@@ -1,3 +1,4 @@
+import "./PropertyList.scss"
 import React, { useEffect } from 'react'
 import PropertyCard from '../PropertyCard/PropertyCard';
 
@@ -12,13 +13,12 @@ const PropertyList = ({propertyArr}) => {
 console.log(propertyArr);
 
   return (
-      <div>
+      <div className="list">
         {propertyArr != undefined & propertyArr.length != 0 ? propertyArr.map((property, index) => {
           
           if(Object.keys(property).length === 0) return <h2>no data</h2>
           return (
             <div key={index}>
-              <h2>house</h2>
               <PropertyCard dateListed={property.dateListed} agency={property.agency} address={property.address} desc={property.desc} price={property.price} bedrooms={property.bedrooms} bathrooms={property.bathrooms} receptions={property.receptions} image={property.image}/>
             </div>
           )

@@ -15,6 +15,7 @@ import Layout from './Containers/Layout/Layout';
 import PropertiesPage from './Containers/PropertiesPage/PropertiesPage';
 import PropertyPage from './Containers/PropertyPage/PropertyPage';
 import EditProperty from "./Containers/EditProperty/EditProperty";
+import EditAccount from './Containers/EditAccount/EditAccount';
 function App() {
   //register
   // Sign In
@@ -39,6 +40,7 @@ function App() {
         <Route path='/welcome' element={<PrivateRoute><Welcome/></PrivateRoute>}/>
         <Route path='/signup' element={<SignUp />} />
         <Route path='/account' element={<PrivateRoute><Account /></PrivateRoute>} />
+        <Route path='/edit-account' element={<PrivateRoute><EditAccount /></PrivateRoute>} />
         <Route path='/add-property' element={<PrivateRoute><AddProperty /></PrivateRoute>} />
         <Route path='/edit-property' element={<PrivateRoute><EditProperty /></PrivateRoute>} />
         <Route path='/all-properties' element={<PrivateRoute><PropertiesPage/></PrivateRoute>} />

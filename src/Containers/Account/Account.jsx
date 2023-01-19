@@ -22,6 +22,11 @@ const Account = () => {
 
     return (
     <div>Account
+      <h2>{userInfo.name}</h2>
+      <h3>{userInfo.agency}</h3>
+      <Link to="/edit-account">
+      <button>Change account details</button>
+      </Link>
               <Link to="/add-property">
         <button>Add Property</button>
         </Link>

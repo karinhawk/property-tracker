@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+button {
+  border: none;
+  border-radius: 0.2rem;
+  background-color: rgb(24, 130, 172);
+  color: white;
+  padding: 0.3rem;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

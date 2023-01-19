@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import "./PropertiesPage.scss"
+import { useEffect } from 'react'
 import { useAppContext } from '../../AppContext'
 import PropertyList from '../../Components/PropertyList/PropertyList'
 
@@ -10,7 +11,7 @@ useEffect(() => {
 }, [])
 console.log(allProperties);
   return (
-    <div>
+    <div className='properties-page'>
         <PropertyList propertyArr={allProperties}/>
     </div>
   )

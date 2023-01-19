@@ -109,8 +109,8 @@ export function AuthAndDBProvider({ children }) {
 
       //do this last    
 
-    await deleteDoc(doc(db, "cities", docId));
-    navigate("/signup-signin")
+    // await deleteDoc(doc(db, "cities", docId));
+    // navigate("/signup-signin")
   }
 
 //need to uselocal storge to persist across refreshes
@@ -141,6 +141,7 @@ export function AuthAndDBProvider({ children }) {
         dateListed: dateListed,
         agency: userInfo.agency,
         image: url,
+        created_by: userInfo.email,
         saved_by: []
       }
    
@@ -170,6 +171,12 @@ export function AuthAndDBProvider({ children }) {
       });
       console.log(propertiesArr);
       setAllProperties(propertiesArr)
+    }
+
+    //getmostsavedproperty for featured properties on front page - top 3 in carousel
+    const getTop3Properties = () => {
+
+
     }
 
     const getSingleProperty = async(address) => {
@@ -206,10 +213,36 @@ export function AuthAndDBProvider({ children }) {
     }
 
     //deleteproperty
+    const deleteProperty = async(address) => {
+      const dbPropertiesRef = collection(db, "properties", )
+      const queryRef = query(dbPropertiesRef, where("address", "==", address))
+      
+      const querySnapshot = await getDocs(queryRef);
+  
+      let docId = "";
+  
+      querySnapshot.forEach((doc) => {
+        docId = doc.id;
+        console.log(docId);
+      })
 
+      await deleteDoc(doc(db, "properties", docId));
+    }
     //deletePropertybyaccount
     const deletePropertyByAccount = async() => {
+      const dbPropertiesRef = collection(db, "properties", )
+      const queryRef = query(dbPropertiesRef, where("created_by", "==", userInfo.email))
+      
+      const querySnapshot = await getDocs(queryRef);
+  
+      let docId = "";
+  
+      querySnapshot.forEach((doc) => {
+        docId = doc.id;
+        console.log(docId);
+      })
 
+      await deleteDoc(doc(db, "properties", docId));
     }
 
     //saveproperty = updatedoc with agent email attached (as unique identifier)

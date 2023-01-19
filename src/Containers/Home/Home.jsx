@@ -1,4 +1,4 @@
-import React from 'react'
+import "./Home.scss"
 import { Link } from 'react-router-dom'
 import { useAppContext } from '../../AppContext'
 
@@ -13,7 +13,7 @@ const Home = () => {
   const {userInfo, logout} = useAppContext()
     
   return (
-    <div>Home
+    <div className="home">Home
         <button onClick={logout}>logout</button>
         <Link to="/account">
         <button>Account</button>

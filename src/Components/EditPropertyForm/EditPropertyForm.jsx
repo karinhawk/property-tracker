@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppContext } from '../../AppContext';
 
 const EditPropertyForm = ({userInfo}) => {
@@ -7,7 +7,7 @@ const EditPropertyForm = ({userInfo}) => {
   //date listed - generate date and time to put into db
   //agency - from users db
   //MUST have address, desc, price, bedrooms, bathrooms, r rooms, agency, and date listed
-const {addProperty, uploadImage} = useAppContext()
+const {addProperty, uploadImage, getSingleProperty} = useAppContext()
 const [street, setStreet] = useState("");
 const [city, setCity] = useState("");
 const [postcode, setPostcode] = useState("");
@@ -17,6 +17,14 @@ const [bedrooms, setBedrooms] = useState("");
 const [bathrooms, setBathrooms] = useState("");
 const [receptions, setReceptions] = useState("");
 const [imageUpload, setImageUpload] = useState(null);
+
+const [property, setProperty] = useState();
+
+useEffect(() => {
+  // setProperty(getSingleProperty(address))
+}, [])
+
+
 
   const handleSubmit = (e) => {
       e.preventDefault()
@@ -40,7 +48,7 @@ return (
       <div className='form__address'>
           <h3>Address</h3>
               <label htmlFor="street">Street Name</label>
-              <input type="text" name="street" id="street" onChange={(e) => {setStreet(e.target.value)}} />
+              <input type="text" name="street" id="street"value={property.address} onChange={(e) => {setStreet(e.target.value)}} />
               <label htmlFor="city">Town/City</label>
               <input type="text" name="city" id="city" onChange={(e) => {setCity(e.target.value)}} />
               <label htmlFor="postcode">Postcode</label>

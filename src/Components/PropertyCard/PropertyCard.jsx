@@ -1,3 +1,4 @@
+import "./PropertyCard.scss"
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppContext } from '../../AppContext'
@@ -17,20 +18,20 @@ const PropertyCard = ({dateListed, agency, address, desc, price, bedrooms, bathr
   
 
   return (
-    <div>
+    <div className="card">
       <Link to={`/:${address}`} state={address}>
-      <img src={image}></img>
+      <img className="card__image" src={image}></img>
       </Link>
       <Link to={`/:${address}`} state={address}>
-      <h2>{address}</h2>
+      <h2 className="card__address">{address}</h2>
       </Link>
-      <h2>{price}</h2>
-      <h3>{desc}</h3>
-      <h3>{bedrooms}</h3>
-      <h3>{bathrooms}</h3>
-      <h3>{receptions}</h3>
-      <h3>{agency}</h3>
-      <h3>{dateListed}</h3>
+      <h2 className="card__price">£{price}</h2>
+      <h3 className="card__desc">{desc}</h3>
+      <h3 className="card__bedrooms">{bedrooms}</h3>
+      <h3 className="card__bathrooms">{bathrooms}</h3>
+      <h3 className="card__receptions">{receptions}</h3>
+      <h3 className="card__agency">{agency}</h3>
+      <h3 className="card__date">listed on: {dateListed}</h3>
       <button onClick={isSaved ? 
         () => {unsaveProperty(address).then(checkIfPropertySaved(address).then((result) => {
           setIsSaved(result)
@@ -39,7 +40,7 @@ const PropertyCard = ({dateListed, agency, address, desc, price, bedrooms, bathr
           setIsSaved(result)
         }))}}
          >{isSaved ? "unsave" : "save"} property</button>
-         <Link to={`/edit-property`}>
+         <Link to={`/edit-property`} state={address}>
          <button>Edit property</button>
          </Link>
     </div>
