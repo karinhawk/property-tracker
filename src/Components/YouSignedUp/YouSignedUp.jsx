@@ -7,7 +7,7 @@ const YouSignedUp = () => {
     const [loading, setLoading] = useState(false)
     const [username, setUsername] = useState("")
     const [agencyName, setAgencyName] = useState("")
-    const {addUserInfo, userInfo} = useAppContext()
+    const {addUserInfo, userInfo, logout} = useAppContext()
     const navigate = useNavigate()
 
     async function handleSubmit(e) {
@@ -17,7 +17,9 @@ const YouSignedUp = () => {
           setError("")
           setLoading(true)
           await addUserInfo(username, agencyName)
-          navigate("/home")
+          setError("please log in")
+          logout()
+          navigate("/signup-signin")
         } catch (e) {
           setError("Failed to create an account")
           console.log(e.message);

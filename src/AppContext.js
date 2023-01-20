@@ -75,7 +75,6 @@ export function AuthAndDBProvider({ children }) {
         name: username,
         agency: agencyName
     })
-    navigate("/")
   }
 
 
@@ -99,14 +98,18 @@ export function AuthAndDBProvider({ children }) {
     querySnapshot.forEach((doc) => {
       docId = doc.id;
     })
-          //delete properties by account
-      deletePropertyByAccount();
+          try{
+            await deleteDoc(doc(db, "users", docId))
+            setUserInfo(null)
+          }catch(e){
+            console.log(e.message);
+          }
 
       //remove saved
-
+      // unsaveAllPropertiesLinkedToAccount()
       //do this last    
 
-    // await deleteDoc(doc(db, "cities", docId));
+    // await deleteDoc(doc(db, "users", docId));
     // navigate("/signup-signin")
   }
 
@@ -151,20 +154,6 @@ export function AuthAndDBProvider({ children }) {
 
     //uploadImage
     const uploadImage = async(imagesArr) => {
-      // const urlArr = [];
-      // imagesArr.forEach(async(image) => {
-      //   const imageRef = ref(storage, `images/${image.name}`)
-      //   await uploadBytes(imageRef, image).then(() => {
-      //     getDownloadURL(imageRef).then((url) => {
-      //       urlArr.push(url)
-      //       console.log(urlArr);
-      //     })
-      //     return urlArr;
-      //     console.log(urlArr);
-      //   })
-      //   console.log(urlArr);
-      // })
-      // return setImgUrl(urlArr)
       const urlArr = [];
       for (const image of imagesArr) {
         const imageRef = ref(storage, `images/${image.name}`)
@@ -194,7 +183,7 @@ export function AuthAndDBProvider({ children }) {
     }
 
     const getSingleProperty = async(address) => {
-      const dbPropertiesRef = collection(db, "properties", )
+      const dbPropertiesRef = collection(db, "properties")
       const queryRef = query(dbPropertiesRef, where("address", "==", address))
       
       const querySnapshot = await getDocs(queryRef);
@@ -208,7 +197,7 @@ export function AuthAndDBProvider({ children }) {
 
     //updateproperty - for adding form stuff
     const unsaveProperty = async(address) => {
-      const dbPropertiesRef = collection(db, "properties", )
+      const dbPropertiesRef = collection(db, "properties")
       const queryRef = query(dbPropertiesRef, where("address", "==", address))
       
       const querySnapshot = await getDocs(queryRef);
@@ -226,13 +215,28 @@ export function AuthAndDBProvider({ children }) {
       // checkIfPropertySaved(address)
     }
 
-    const unsaveAllPropertiesLinkedToAccount = () => {
+    const unsaveAllPropertiesLinkedToAccount = async() => {
+      //get all properties where saved_by includes that email and save in  array
+      //for each property in that array
+      //remove that email from savedby
+      const dbPropertiesRef = collection(db, "properties")
+      const queryRef = query(dbPropertiesRef, where("saved_by", "array-contains", userInfo.email))
+      
+      const querySnapshot = await getDocs(queryRef);
 
+      const updates = [];
+
+      querySnapshot.forEach((doc) => {
+        updates.push(updateDoc(doc.ref, {
+          saved_by: arrayRemove(userInfo.email)
+        }))
+      })
+      await Promise.all(updates)
     }
 
     //deleteproperty
     const deleteProperty = async(address) => {
-      const dbPropertiesRef = collection(db, "properties", )
+      const dbPropertiesRef = collection(db, "properties")
       const queryRef = query(dbPropertiesRef, where("address", "==", address))
       
       const querySnapshot = await getDocs(queryRef);
@@ -248,24 +252,22 @@ export function AuthAndDBProvider({ children }) {
     }
     //deletePropertybyaccount
     const deletePropertyByAccount = async() => {
-      const dbPropertiesRef = collection(db, "properties", )
+      const dbPropertiesRef = collection(db, "properties")
       const queryRef = query(dbPropertiesRef, where("created_by", "==", userInfo.email))
       
       const querySnapshot = await getDocs(queryRef);
-  
-      let docId = "";
-  
-      querySnapshot.forEach((doc) => {
-        docId = doc.id;
-        console.log(docId);
-      })
 
-      await deleteDoc(doc(db, "properties", docId));
+      const updates = [];
+
+      querySnapshot.forEach((doc) => {
+        updates.push(deleteDoc(doc.ref))
+      })
+      await Promise.all(updates)
     }
 
     //saveproperty = updatedoc with agent email attached (as unique identifier)
     const saveProperty = async(address) => {
-      const dbPropertiesRef = collection(db, "properties", )
+      const dbPropertiesRef = collection(db, "properties")
       const queryRef = query(dbPropertiesRef, where("address", "==", address))
       
       const querySnapshot = await getDocs(queryRef);
@@ -288,7 +290,7 @@ export function AuthAndDBProvider({ children }) {
       //input user email
       //if currentuser email exists on property - return true
       const propertiesArr = [];
-      const dbPropertiesRef = collection(db, "properties", )
+      const dbPropertiesRef = collection(db, "properties")
       const queryRef = query(dbPropertiesRef, where("address", "==", address))
 
       const querySnapshot = await getDocs(queryRef);
@@ -343,8 +345,10 @@ export function AuthAndDBProvider({ children }) {
     resetPassword,
     deleteAccount,
     addProperty,
+    deletePropertyByAccount,
     saveProperty,
     unsaveProperty,
+    unsaveAllPropertiesLinkedToAccount,
     checkIfPropertySaved,
     uploadImage,
     getAllProperties,

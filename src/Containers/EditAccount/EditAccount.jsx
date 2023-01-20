@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useAppContext } from '../../AppContext'
 import EditAccountForm from '../../Components/EditAccountForm/EditAccountForm'
 
@@ -8,18 +9,23 @@ const EditAccount = () => {
     const [showModal, setShowModal] = useState(false)
     const [passwordInput, setPasswordInput] = useState("")
     const [noMatch, setNoMatch] = useState("");
-    const {deleteAccount, userInfo} = useAppContext()
+    const {deleteAccount, userInfo, logout, unsaveAllPropertiesLinkedToAccount, deletePropertyByAccount} = useAppContext()
+    const navigate = useNavigate();
 
     const toggleDeleteModal = () => {
         setShowModal(!showModal)
     }
 
-    const handleDeleteAccount = (e, passwordInput) => {
+    const handleDeleteAccount = async(e, passwordInput) => {
         e.preventDefault()
         if(passwordInput === userInfo.password){
             try{
-                deleteAccount()
+                await unsaveAllPropertiesLinkedToAccount().then(deletePropertyByAccount()).then(deleteAccount())
+                // await unsaveAllPropertiesLinkedToAccount()
+                // await deletePropertyByAccount()
                 console.log("success");
+                // logout()
+                // navigate("/signup-signin")
             } catch(error){
                 console.log(error.message);
             }
