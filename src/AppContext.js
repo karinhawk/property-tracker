@@ -13,14 +13,12 @@ export function useAppContext() {
 
 export function AuthAndDBProvider({ children }) {
   const [currentUser, setCurrentUser] = useState()
-  const [loading, setLoading] = useState(true)
   const [userInfo, setUserInfo] = useState()
-  const [imgUrl, setImgUrl] = useState()
+  const [imgUrl, setImgUrl] = useState([])
   const [allProperties, setAllProperties] = useState([])
   const [savedProperties, setSavedProperties] = useState();
   const [agencyProperties, setAgencyProperties] = useState();
   const [chosenProperty, setChosenProperty] = useState();
-  // const [isPropertySaved, setIsPropertySaved] = useState(false);
   const navigate = useNavigate()
 
   //-------AUTHORIZATION---------
@@ -105,7 +103,6 @@ export function AuthAndDBProvider({ children }) {
       deletePropertyByAccount();
 
       //remove saved
-      unsaveProperty();
 
       //do this last    
 
@@ -124,13 +121,14 @@ export function AuthAndDBProvider({ children }) {
     //-------PROPERTIES DATABASE---------
 
     //addproperty
-    const addProperty = async(address, desc, price, bedrooms, bathrooms, receptions, url) => {
+    const addProperty = async(address, desc, price, bedrooms, bathrooms, receptions) => {
       //date listed
       const date = new Date();
       const day = date.getDate();
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
       const dateListed = `${day}-${month}-${year}`
+      console.log(imgUrl);
       const propertyInfo = {
         address: address,
         desc: desc,
@@ -140,7 +138,7 @@ export function AuthAndDBProvider({ children }) {
         receptions: receptions,
         dateListed: dateListed,
         agency: userInfo.agency,
-        image: url,
+        images: imgUrl,
         created_by: userInfo.email,
         saved_by: []
       }
@@ -152,14 +150,30 @@ export function AuthAndDBProvider({ children }) {
     }
 
     //uploadImage
-    const uploadImage = async (imageUpload) => {
-      const imageRef = ref(storage, `images/${imageUpload.name}`)
-      await uploadBytes(imageRef, imageUpload).then(() => {
-        getDownloadURL(imageRef).then((url) => {
-          setImgUrl(url)
-        })
-      })
-      return imgUrl;
+    const uploadImage = async(imagesArr) => {
+      // const urlArr = [];
+      // imagesArr.forEach(async(image) => {
+      //   const imageRef = ref(storage, `images/${image.name}`)
+      //   await uploadBytes(imageRef, image).then(() => {
+      //     getDownloadURL(imageRef).then((url) => {
+      //       urlArr.push(url)
+      //       console.log(urlArr);
+      //     })
+      //     return urlArr;
+      //     console.log(urlArr);
+      //   })
+      //   console.log(urlArr);
+      // })
+      // return setImgUrl(urlArr)
+      const urlArr = [];
+      for (const image of imagesArr) {
+        const imageRef = ref(storage, `images/${image.name}`)
+        await uploadBytes(imageRef, image)
+        const url = await getDownloadURL(imageRef)
+        urlArr.push(url)
+        console.log(urlArr);
+      }
+      return setImgUrl(urlArr);
     }
 
     //getproperty to view - into array!!
@@ -210,6 +224,10 @@ export function AuthAndDBProvider({ children }) {
           saved_by: arrayRemove(userInfo.email)
       })
       // checkIfPropertySaved(address)
+    }
+
+    const unsaveAllPropertiesLinkedToAccount = () => {
+
     }
 
     //deleteproperty
@@ -331,7 +349,6 @@ export function AuthAndDBProvider({ children }) {
     uploadImage,
     getAllProperties,
     getAllPropertiesFromAgency,
-    saveProperty,
     getSavedProperties,
     getSingleProperty
   }

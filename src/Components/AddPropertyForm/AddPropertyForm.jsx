@@ -25,9 +25,9 @@ const AddPropertyForm = ({userInfo}) => {
                 if(street !== "" & city !== "" & postcode !== "" & desc !== "" & price !== "" & bedrooms !== "" & bathrooms !== "" & receptions !== "" & imageUpload !== null){
                     try{
                         const address = `${street}, ${city}, ${postcode.toUpperCase()}`
+                        const imagesArr = Array.from(imageUpload);
                         console.log(address, desc, price, bedrooms, bathrooms, receptions);
-                        uploadImage(imageUpload).then((url) => {addProperty(address, desc, price, bedrooms, bathrooms, receptions, url);
-                        })                    
+                        uploadImage(imagesArr).then(addProperty(address, desc, price, bedrooms, bathrooms, receptions))                    
                     }catch(error){
                         console.log(error.message)
                     }
@@ -58,7 +58,7 @@ const AddPropertyForm = ({userInfo}) => {
                 <label htmlFor="receptions">Reception Rooms</label>
                 <input type="text" name="receptions" id="receptions" onChange={(e) => {setReceptions(e.target.value)}}/>
                 <label htmlFor="image">Property picture</label>
-                <input type="file" onChange={(e) => {setImageUpload(e.target.files[0])}}/>
+                <input type="file" name='image' id='image' multiple onChange={(e) => {setImageUpload(e.target.files)}}/>
                 <button>Add Property</button>
             </form>
         </div>

@@ -7,3 +7,9 @@
 //have listing show first image in array
 
 //today - deal with saved properties updating and deleting and deleting account and properties
+
+//multiple images
+//unsaveAllPropertiesLinkedToAccount
+//deleteProperty
+//deletePropertyByAccount
+//deleteAccount

@@ -19,7 +19,7 @@ console.log(propertyArr);
           if(Object.keys(property).length === 0) return <h2>no data</h2>
           return (
             <div key={index}>
-              <PropertyCard dateListed={property.dateListed} agency={property.agency} address={property.address} desc={property.desc} price={property.price} bedrooms={property.bedrooms} bathrooms={property.bathrooms} receptions={property.receptions} image={property.image}/>
+              <PropertyCard dateListed={property.dateListed} agency={property.agency} address={property.address} desc={property.desc} price={property.price} bedrooms={property.bedrooms} bathrooms={property.bathrooms} receptions={property.receptions} image={property.images[0]}/>
             </div>
           )
         }): <h2>loading</h2>}
