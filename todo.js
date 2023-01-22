@@ -4,9 +4,10 @@
 //DELETE PROPERTY
 //EDIT ACCOUNT DETAILS
 
-//today - deal with saved properties updating and deleting and deleting account and properties
+
 
 
 //deleteProperty
-//deleteAccount
 //login bug
+
+//edit property - pass form contents

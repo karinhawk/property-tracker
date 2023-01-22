@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppContext } from '../../AppContext'
 
-const PropertyCard = ({dateListed, agency, address, desc, price, bedrooms, bathrooms, receptions, image}) => {
+const PropertyCard = ({dateListed, agency, address, desc, price, bedrooms, bathrooms, receptions, images}) => {
 
   const {saveProperty, unsaveProperty, checkIfPropertySaved} = useAppContext()
   //useffect fire check if saved
@@ -16,11 +16,22 @@ const PropertyCard = ({dateListed, agency, address, desc, price, bedrooms, bathr
   //   console.log(isSaved);
   // }, [])
   
+  const property = {
+    dateListed: dateListed,
+    address: address,
+    agency: agency,
+    desc: desc,
+    price: price,
+    bedrooms: bedrooms,
+    bathrooms: bathrooms,
+    receptions: receptions,
+    images: images
+  }
 
   return (
     <div className="card">
       <Link to={`/:${address}`} state={address}>
-      <img className="card__image" src={image}></img>
+      <img className="card__image" src={images[0]}></img>
       </Link>
       <Link to={`/:${address}`} state={address}>
       <h2 className="card__address">{address}</h2>
@@ -40,7 +51,7 @@ const PropertyCard = ({dateListed, agency, address, desc, price, bedrooms, bathr
           setIsSaved(result)
         }))}}
          >{isSaved ? "unsave" : "save"} property</button>
-         <Link to={`/edit-property`} state={address}>
+         <Link to={`/edit-property`} state={property}>
          <button>Edit property</button>
          </Link>
     </div>

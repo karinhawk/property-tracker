@@ -1,3 +1,4 @@
+import "./LandingPage.scss"
 import LogInForm from '../../Components/LogInForm/LogInForm.jsx'
 import SignUpForm from '../../Components/SignUpForm/SignUpForm.jsx'
 import { Link } from 'react-router-dom'
@@ -11,15 +12,11 @@ const LandingPage = () => {
         setShowSignUp(true)
     }
     return (
-        <div>
+        <div className='landing-page'>
             <h1>LandingPage</h1>
             <LogInForm />
             <h2><a onClick={toggleSignUp}>Don't have an account? Create One</a></h2>
             {showSignUp && <SignUpForm />}
-            <Link to="/home">
-                <h1>home</h1>
-            
-            </Link>
         </div>
     )
 }

@@ -9,6 +9,9 @@ const AddPropertyForm = ({userInfo}) => {
             //agency - from users db
             //MUST have address, desc, price, bedrooms, bathrooms, r rooms, agency, and date listed
     const {addProperty, uploadImage} = useAppContext()
+    
+
+    const [isDisabled, setIsDisabled] = useState(true)
     const [street, setStreet] = useState("");
     const [city, setCity] = useState("");
     const [postcode, setPostcode] = useState("");
@@ -33,6 +36,8 @@ const AddPropertyForm = ({userInfo}) => {
                     }
                 }
             }
+
+            //active inactive buttons
 
 
     return (
@@ -59,7 +64,7 @@ const AddPropertyForm = ({userInfo}) => {
                 <input type="text" name="receptions" id="receptions" onChange={(e) => {setReceptions(e.target.value)}}/>
                 <label htmlFor="image">Property picture</label>
                 <input type="file" name='image' id='image' multiple onChange={(e) => {setImageUpload(e.target.files)}}/>
-                <button>Add Property</button>
+                <button  className={isDisabled ? "disabled" : "active"}>Add Property</button>
             </form>
         </div>
     )

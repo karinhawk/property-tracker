@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react"
-import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { createUserWithEmailAndPassword, deleteUser, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth, db, storage } from "./firebase.js"
 import { addDoc, collection, doc, updateDoc, where, getDoc, query, getDocs, FieldValue, arrayUnion, deleteDoc, arrayRemove } from "firebase/firestore"
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -99,21 +99,16 @@ export function AuthAndDBProvider({ children }) {
       docId = doc.id;
     })
           try{
-            await deleteDoc(doc(db, "users", docId))
+            await deleteUser(auth.currentUser).then(deleteDoc(doc(db, "users", docId)))
+            // await deleteDoc(doc(db, "users", docId))
             setUserInfo(null)
           }catch(e){
             console.log(e.message);
           }
-
-      //remove saved
-      // unsaveAllPropertiesLinkedToAccount()
-      //do this last    
-
-    // await deleteDoc(doc(db, "users", docId));
-    // navigate("/signup-signin")
   }
 
 //need to uselocal storge to persist across refreshes
+//need to grab user that matches from db? (in auth state changed???)
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             setCurrentUser(user);

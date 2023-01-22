@@ -1,10 +1,10 @@
 import React from 'react'
 import EditPropertyForm from '../../Components/EditPropertyForm/EditPropertyForm'
 
-const EditProperty = () => {
+const EditProperty = ({address}) => {
   return (
     <div>EditProperty
-      {/* <EditPropertyForm /> */}
+      <EditPropertyForm />
     </div>
   )
 }
