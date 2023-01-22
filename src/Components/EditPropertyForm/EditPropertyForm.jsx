@@ -11,7 +11,7 @@ const EditPropertyForm = ({userInfo}) => {
   //date listed - generate date and time to put into db
   //agency - from users db
   //MUST have address, desc, price, bedrooms, bathrooms, r rooms, agency, and date listed
-const {addProperty, uploadImage, updateProperty} = useAppContext();
+const {uploadImage, updateProperty, deleteProperty} = useAppContext();
 const [address, setAddress] = useState(oldAddress);
 const [desc, setDesc] = useState(property.desc);
 const [price, setPrice] = useState(property.price);
@@ -20,16 +20,16 @@ const [bathrooms, setBathrooms] = useState(property.bathrooms);
 const [receptions, setReceptions] = useState(property.receptions);
 const [imageUpload, setImageUpload] = useState(property.images);
 
+//must work out showing images!! and double click image bug!!
 
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
       e.preventDefault()
       if(address !== "" & desc !== "" & price !== "" & bedrooms !== "" & bathrooms !== "" & receptions !== "" & imageUpload !== null){
           try{
               const imagesArr = Array.from(imageUpload);
               console.log(oldAddress, address, desc, price, bedrooms, bathrooms, receptions);
-              uploadImage(imagesArr).then(updateProperty(oldAddress, address, desc, price, bedrooms, bathrooms, receptions))                   
+              await uploadImage(imagesArr).then((urlArr) => updateProperty(oldAddress, address, desc, price, bedrooms, bathrooms, receptions, urlArr))                   
        
           }catch(error){
               console.log(error.message)
@@ -55,9 +55,10 @@ return (
       <input type="text" name="receptions" id="receptions" defaultValue={property.receptions} onChange={(e) => {setReceptions(e.target.value)}}/>
       <label htmlFor="image">Property picture</label>
       <input type="file" name='image' id='image' multiple onChange={(e) => {setImageUpload(e.target.files)}}/>
-      <button>Add Property</button>
+      <button>Edit Property</button>
   </form>}
   {!property && <h3>loading</h3>}
+  <button onClick={() => deleteProperty(address)}>Delete Property: this cannot be undone</button>
 </div>
 )
 }

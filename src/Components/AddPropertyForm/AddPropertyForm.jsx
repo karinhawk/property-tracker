@@ -22,7 +22,7 @@ const AddPropertyForm = ({userInfo}) => {
     const [receptions, setReceptions] = useState("");
     const [imageUpload, setImageUpload] = useState(null);
 
-            const handleSubmit = (e) => {
+            const handleSubmit = async(e) => {
                 e.preventDefault()
                 console.log(userInfo);
                 if(street !== "" & city !== "" & postcode !== "" & desc !== "" & price !== "" & bedrooms !== "" & bathrooms !== "" & receptions !== "" & imageUpload !== null){
@@ -30,7 +30,7 @@ const AddPropertyForm = ({userInfo}) => {
                         const address = `${street}, ${city}, ${postcode.toUpperCase()}`
                         const imagesArr = Array.from(imageUpload);
                         console.log(address, desc, price, bedrooms, bathrooms, receptions);
-                        uploadImage(imagesArr).then(addProperty(address, desc, price, bedrooms, bathrooms, receptions))                    
+                        await uploadImage(imagesArr).then((urlArr) => addProperty(address, desc, price, bedrooms, bathrooms, receptions, urlArr))                    
                     }catch(error){
                         console.log(error.message)
                     }

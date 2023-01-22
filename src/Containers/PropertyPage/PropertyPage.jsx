@@ -4,18 +4,13 @@ import { useAppContext } from '../../AppContext';
 
 const PropertyPage = () => {
     const location = useLocation();
-    const address = location.state;
-    const {getSingleProperty, chosenProperty} = useAppContext()
-
-    useEffect(() => {
-        console.log(address);
-        getSingleProperty(address)
-    }, [])
+    const property = location.state;
 
   return (
     <div>PropertyPage
-       <p>{address}</p>
-       {chosenProperty && <p>{chosenProperty.agency}</p>}
+       <p>{property.address}</p>
+       <img src={property.images[0]} alt="" />
+       <img src={property.images[1]} alt="" />
 
     </div>
   )

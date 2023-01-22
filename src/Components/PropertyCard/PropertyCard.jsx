@@ -30,10 +30,10 @@ const PropertyCard = ({dateListed, agency, address, desc, price, bedrooms, bathr
 
   return (
     <div className="card">
-      <Link to={`/:${address}`} state={address}>
+      <Link to={`/:${address}`} state={property}>
       <img className="card__image" src={images[0]}></img>
       </Link>
-      <Link to={`/:${address}`} state={address}>
+      <Link to={`/:${address}`} state={property}>
       <h2 className="card__address">{address}</h2>
       </Link>
       <h2 className="card__price">£{price}</h2>

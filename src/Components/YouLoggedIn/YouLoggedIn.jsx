@@ -7,7 +7,7 @@ const YouLoggedIn = () => {
     return (
         <div>
             <h2>Welcome back {userInfo.name} from {userInfo.agency}</h2>
-            <Link to="/home">
+            <Link to="/">
             <button>Continue</button>
             </Link>
         </div>

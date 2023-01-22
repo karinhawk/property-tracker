@@ -119,7 +119,7 @@ export function AuthAndDBProvider({ children }) {
     //-------PROPERTIES DATABASE---------
 
     //addproperty
-    const addProperty = async(address, desc, price, bedrooms, bathrooms, receptions) => {
+    const addProperty = async(address, desc, price, bedrooms, bathrooms, receptions, urlArr) => {
       //date listed
       const date = new Date();
       const day = date.getDate();
@@ -136,7 +136,7 @@ export function AuthAndDBProvider({ children }) {
         receptions: receptions,
         dateListed: dateListed,
         agency: userInfo.agency,
-        images: imgUrl,
+        images: urlArr,
         created_by: userInfo.email,
         saved_by: []
       }
@@ -147,7 +147,7 @@ export function AuthAndDBProvider({ children }) {
     
     }
 
-    const updateProperty = async(oldAddress, address, price, desc, bedrooms, bathrooms, receptions) => {
+    const updateProperty = async(oldAddress, address, desc, price, bedrooms, bathrooms, receptions, urlArr) => {
       console.log(oldAddress);
       const dbPropertiesRef = collection(db, "properties")
       const queryRef = query(dbPropertiesRef, where("address", "==", oldAddress))
@@ -177,7 +177,7 @@ export function AuthAndDBProvider({ children }) {
         receptions: receptions,
         dateListed: date,
         agency: agencyName,
-        images: imgUrl,
+        images: urlArr,
         created_by: createdBy,
         saved_by: savedBy
       }).then(console.log("success!"))
@@ -185,15 +185,24 @@ export function AuthAndDBProvider({ children }) {
 
     //uploadImage
     const uploadImage = async(imagesArr) => {
-      const urlArr = [];
-      for (const image of imagesArr) {
-        const imageRef = ref(storage, `images/${image.name}`)
-        await uploadBytes(imageRef, image)
-        const url = await getDownloadURL(imageRef)
-        urlArr.push(url)
-        console.log(urlArr);
+      setImgUrl([])
+      let urlArr = [];
+      let updates = [];
+      let url = "";
+
+      for (let i = 0; i < imagesArr.length; i++) {
+        let uniqueId = Date.now().toString(36) + Math.random().toString(36).substring(2);
+        const imageRef = ref(storage, `images/${uniqueId}`);
+          await uploadBytes(imageRef, imagesArr[i])
+
+          // url = await getDownloadURL(imageRef)
+          // urlArr.push(url)
+          // console.log(urlArr)
+          updates.push(await getDownloadURL(imageRef).then((url) => urlArr.push(url)))
       }
-      return setImgUrl(urlArr);
+      await Promise.all(updates)
+      return urlArr
+      
     }
 
     //getproperty to view - into array!!
@@ -210,6 +219,10 @@ export function AuthAndDBProvider({ children }) {
     //getmostsavedproperty for featured properties on front page - top 3 in carousel
     const getTop3Properties = () => {
 
+
+    }
+
+    const getRecentlyUploaded = () => {
 
     }
 
@@ -280,6 +293,7 @@ export function AuthAndDBProvider({ children }) {
       })
 
       await deleteDoc(doc(db, "properties", docId));
+      navigate("/account")
     }
     //deletePropertybyaccount
     const deletePropertyByAccount = async() => {
@@ -377,6 +391,7 @@ export function AuthAndDBProvider({ children }) {
     deleteAccount,
     addProperty,
     updateProperty,
+    deleteProperty,
     deletePropertyByAccount,
     saveProperty,
     unsaveProperty,
