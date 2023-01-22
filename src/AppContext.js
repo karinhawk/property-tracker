@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react"
 import { createUserWithEmailAndPassword, deleteUser, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth, db, storage } from "./firebase.js"
-import { addDoc, collection, doc, updateDoc, where, getDoc, query, getDocs, FieldValue, arrayUnion, deleteDoc, arrayRemove } from "firebase/firestore"
+import { addDoc, collection, doc, updateDoc, where, getDoc, query, getDocs, FieldValue, arrayUnion, deleteDoc, arrayRemove, setDoc } from "firebase/firestore"
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom"
 
@@ -145,6 +145,42 @@ export function AuthAndDBProvider({ children }) {
 
       return await addDoc(dbRef, propertyInfo).then(console.log("success!"))
     
+    }
+
+    const updateProperty = async(oldAddress, address, price, desc, bedrooms, bathrooms, receptions) => {
+      console.log(oldAddress);
+      const dbPropertiesRef = collection(db, "properties")
+      const queryRef = query(dbPropertiesRef, where("address", "==", oldAddress))
+      
+      const querySnapshot = await getDocs(queryRef);
+  
+      let docId = "";
+      let createdBy = "";
+      let savedBy = "";
+      let agencyName = "";
+      let date = "";
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data());
+        docId = doc.id
+        console.log(doc.id);
+        createdBy = doc.data().created_by;
+        savedBy = doc.data().saved_by;
+        agencyName = doc.data().agency
+        date = doc.data().dateListed
+      })
+      return await setDoc(doc(dbPropertiesRef, docId), {
+        address: address,
+        desc: desc,
+        price: price,
+        bedrooms: bedrooms,
+        bathrooms: bathrooms,
+        receptions: receptions,
+        dateListed: date,
+        agency: agencyName,
+        images: imgUrl,
+        created_by: createdBy,
+        saved_by: savedBy
+      }).then(console.log("success!"))
     }
 
     //uploadImage
@@ -340,6 +376,7 @@ export function AuthAndDBProvider({ children }) {
     resetPassword,
     deleteAccount,
     addProperty,
+    updateProperty,
     deletePropertyByAccount,
     saveProperty,
     unsaveProperty,

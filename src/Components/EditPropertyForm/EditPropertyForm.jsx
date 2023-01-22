@@ -3,40 +3,34 @@ import { useLocation } from 'react-router-dom';
 import { useAppContext } from '../../AppContext';
 
 const EditPropertyForm = ({userInfo}) => {
-
+  const location = useLocation();
+  const property = location.state;
+  const oldAddress = property.address
 
   //upload image
   //date listed - generate date and time to put into db
   //agency - from users db
   //MUST have address, desc, price, bedrooms, bathrooms, r rooms, agency, and date listed
-const {addProperty, uploadImage} = useAppContext()
-const [street, setStreet] = useState("");
-const [city, setCity] = useState("");
-const [postcode, setPostcode] = useState("");
-const [desc, setDesc] = useState("");
-const [price, setPrice] = useState("");
-const [bedrooms, setBedrooms] = useState("");
-const [bathrooms, setBathrooms] = useState("");
-const [receptions, setReceptions] = useState("");
-const [imageUpload, setImageUpload] = useState(null);
-
-const location = useLocation();
-const property = location.state;
-
-// const [property, setProperty] = useState();
+const {addProperty, uploadImage, updateProperty} = useAppContext();
+const [address, setAddress] = useState(oldAddress);
+const [desc, setDesc] = useState(property.desc);
+const [price, setPrice] = useState(property.price);
+const [bedrooms, setBedrooms] = useState(property.bedrooms);
+const [bathrooms, setBathrooms] = useState(property.bathrooms);
+const [receptions, setReceptions] = useState(property.receptions);
+const [imageUpload, setImageUpload] = useState(property.images);
 
 
 
 
   const handleSubmit = (e) => {
       e.preventDefault()
-      console.log(userInfo);
-      if(street !== "" & city !== "" & postcode !== "" & desc !== "" & price !== "" & bedrooms !== "" & bathrooms !== "" & receptions !== "" & imageUpload !== null){
+      if(address !== "" & desc !== "" & price !== "" & bedrooms !== "" & bathrooms !== "" & receptions !== "" & imageUpload !== null){
           try{
-              const address = `${street}, ${city}, ${postcode.toUpperCase()}`
-              console.log(address, desc, price, bedrooms, bathrooms, receptions);
-              uploadImage(imageUpload).then((url) => {addProperty(address, desc, price, bedrooms, bathrooms, receptions, url);
-              })                    
+              const imagesArr = Array.from(imageUpload);
+              console.log(oldAddress, address, desc, price, bedrooms, bathrooms, receptions);
+              uploadImage(imagesArr).then(updateProperty(oldAddress, address, desc, price, bedrooms, bathrooms, receptions))                   
+       
           }catch(error){
               console.log(error.message)
           }
@@ -47,15 +41,8 @@ const property = location.state;
 return (
 <div>
   {property.length != 0 && <form className='form' onSubmit={handleSubmit}>
-      <div className='form__address'>
-          <h3>Address</h3>
-              <label htmlFor="street">Street Name</label>
-              <input type="text" name="street" id="street" onChange={(e) => {setStreet(e.target.value)}} />
-              <label htmlFor="city">Town/City</label>
-              <input type="text" name="city" id="city" onChange={(e) => {setCity(e.target.value)}} />
-              <label htmlFor="postcode">Postcode</label>
-              <input type="text" name="postcode" id="postcode" onChange={(e) => {setPostcode(e.target.value)}}/>
-      </div>
+  <label htmlFor="address">Address</label>
+      <input type="text" name="address" id="address" defaultValue={property.address} onChange={(e) => {setAddress(e.target.value)}}/>
       <label htmlFor="desc">Description</label>
       <input type="text" name="desc" id="desc" defaultValue={property.desc} onChange={(e) => {setDesc(e.target.value)}}/>
       <label htmlFor="price" >Guide Price £</label>
@@ -67,7 +54,7 @@ return (
       <label htmlFor="receptions">Reception Rooms</label>
       <input type="text" name="receptions" id="receptions" defaultValue={property.receptions} onChange={(e) => {setReceptions(e.target.value)}}/>
       <label htmlFor="image">Property picture</label>
-      <input type="file" onChange={(e) => {setImageUpload(e.target.files[0])}}/>
+      <input type="file" name='image' id='image' multiple onChange={(e) => {setImageUpload(e.target.files)}}/>
       <button>Add Property</button>
   </form>}
   {!property && <h3>loading</h3>}
