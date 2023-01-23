@@ -1,9 +1,12 @@
-import React from 'react'
+import "./Footer.scss"
 
 const Footer = () => {
   return (
-    <footer>
-        footer time
+    <footer className="footer">
+        <h6 className="footer__item">Careers</h6>
+        <h6 className="footer__item">Modern Slavery Statement</h6>
+        <h6 className="footer__item">About</h6>
+        <h6 className="footer__item">Contact</h6>
     </footer>
   )
 }

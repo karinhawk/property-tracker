@@ -1,8 +1,12 @@
 //THINGS TO DO
 
 
-//login bug
-//images array bug
-//making sure images update!
 //edit account?
 //profile picture
+
+//tests
+//unit tests!
+
+//styling today!!!
+
+//search function? for finding properties?

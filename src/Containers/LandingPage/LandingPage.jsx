@@ -1,22 +1,35 @@
 import "./LandingPage.scss"
 import LogInForm from '../../Components/LogInForm/LogInForm.jsx'
 import SignUpForm from '../../Components/SignUpForm/SignUpForm.jsx'
-import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import Logo from "../../Components/Logo/Logo"
+
 
 const LandingPage = () => {
     const [showSignUp, setShowSignUp] = useState(false)
 
-
     const toggleSignUp = () => {
-        setShowSignUp(true)
+        setShowSignUp(!showSignUp)
     }
     return (
         <div className='landing-page'>
-            <h1>LandingPage</h1>
-            <LogInForm />
-            <h2><a onClick={toggleSignUp}>Don't have an account? Create One</a></h2>
-            {showSignUp && <SignUpForm />}
+            <div className="landing-page__content">
+                <Logo />
+                {!showSignUp &&
+                    <div><LogInForm />
+                        <div className="landing-page__create">
+                            <h3 className="landing-page__create__static">Don't have an account?</h3>
+                            <h4 onClick={toggleSignUp} className="landing-page__create__clickable">Create One</h4>
+                        </div>
+                    </div>}
+                {showSignUp &&
+                    <div><SignUpForm />
+                        <div className="landing-page__create">
+                            <h3 className="landing-page__create__static">Already have an account?</h3>
+                            <h4 onClick={toggleSignUp} className="landing-page__create__clickable">Sign in</h4>
+                        </div>
+                    </div>}
+            </div>
         </div>
     )
 }

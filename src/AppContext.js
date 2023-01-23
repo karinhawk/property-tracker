@@ -188,16 +188,11 @@ export function AuthAndDBProvider({ children }) {
       setImgUrl([])
       let urlArr = [];
       let updates = [];
-      let url = "";
 
       for (let i = 0; i < imagesArr.length; i++) {
         let uniqueId = Date.now().toString(36) + Math.random().toString(36).substring(2);
         const imageRef = ref(storage, `images/${uniqueId}`);
           await uploadBytes(imageRef, imagesArr[i])
-
-          // url = await getDownloadURL(imageRef)
-          // urlArr.push(url)
-          // console.log(urlArr)
           updates.push(await getDownloadURL(imageRef).then((url) => urlArr.push(url)))
       }
       await Promise.all(updates)
@@ -375,6 +370,7 @@ export function AuthAndDBProvider({ children }) {
       console.log(propertiesArr);
       return setSavedProperties(propertiesArr)
     }
+
 
   const value = {
     currentUser,

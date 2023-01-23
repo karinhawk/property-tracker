@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import "./SignUpForm.scss"
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../AppContext';
 
@@ -8,7 +9,6 @@ const SignUpForm = () => {
     const [registerPassword, setRegisterPassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");
     const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
     async function handleSubmit(e) {
@@ -23,7 +23,6 @@ const SignUpForm = () => {
     
         try {
           setError("")
-          setLoading(true)
           await signup(registerEmail, registerPassword)
           console.log(registerEmail, registerPassword);
           navigate("/welcome")
@@ -31,21 +30,25 @@ const SignUpForm = () => {
           setError("Failed to create an account")
           console.log(e.message);
         }
-    
-        setLoading(false)
       }
 
   return (
-    <div>
-        <h2>Create Account</h2>
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="email">Email</label>
-            <input type="text" name="email" id="email" onChange={(e) => {setRegisterEmail(e.target.value)}}/>
-            <label htmlFor="password">Password</label>
-            <input type="text" name="password" id="password" onChange={(e) => {setRegisterPassword(e.target.value)}}/>
-            <label htmlFor="password">Password</label>
-            <input type="text" name="password2" id="password2" onChange={(e) => {setPasswordCheck(e.target.value)}}/>
-            <button>Create Account</button>
+    <div className='form'>
+        <h2 className='form__title'>Create Account</h2>
+        <form onSubmit={handleSubmit} className="form__content">
+          <div className="form__content__item">
+            <label htmlFor="email" className="form__content__item__label">Email</label>
+            <input type="text" name="email" id="email" className="form__content__email__input" onChange={(e) => {setRegisterEmail(e.target.value)}}/>
+            </div>
+            <div className="form__content__item">
+            <label htmlFor="password" className="form__content__item__label">Password</label>
+            <input type="text" name="password" id="password" className="form__content__item__input" onChange={(e) => {setRegisterPassword(e.target.value)}}/>
+            </div>
+            <div className="form__content__item">
+            <label htmlFor="password" className="form__content__item__label">Password</label>
+            <input type="text" name="password2" id="password2" className="form__content__item__input" onChange={(e) => {setPasswordCheck(e.target.value)}}/>
+            </div>
+            <button className="form__content__submit">Create Account</button>
         </form>
         <h3>{error}</h3>
     </div>

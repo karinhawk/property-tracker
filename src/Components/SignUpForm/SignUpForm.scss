@@ -1,0 +1,33 @@
+.form {
+    height: 50vh;
+    width: 70vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    &__content {
+        height: 30vh;
+        width: 70vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        &__item {
+            width: 70vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: flex-start;
+
+            &__label {
+
+            }
+            &__input {
+                width: 70vw;
+            }
+        }
+        &__submit {
+            width: 70vw;
+        }
+    }
+}

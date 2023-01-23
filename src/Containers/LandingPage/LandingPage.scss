@@ -1,3 +1,35 @@
+@use "../../variables" as *;
+
 .landing-page {
     height: 90vh;
+    width: 100vw;;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &__content {
+        height: 70vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    &__create {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        &__static {
+            font-size: 1rem;
+        }
+        &__clickable {
+            color: $dark-blue;
+            font-size: 1rem;
+            text-decoration: underline 2px;
+        }
+    }
+
 }

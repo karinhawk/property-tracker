@@ -1,0 +1,18 @@
+@use "../../variables" as *;
+
+
+
+    .logo {
+        width: 75vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &__title {
+            font-size: 2rem;
+            text-decoration: underline $orange double 0.2rem;
+        }
+        &__img {
+            height: 3rem;
+            width: auto;
+        }
+    }
