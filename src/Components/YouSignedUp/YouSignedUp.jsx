@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import "./YouSignedUp.scss"
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAppContext } from '../../AppContext'
 
 const YouSignedUp = () => {
@@ -29,15 +30,20 @@ const YouSignedUp = () => {
       }
 
   return (
-    <div>
-        <form onSubmit={handleSubmit}>
-        <h2>You Successfully Created an Account!</h2>
-        <label htmlFor='name'>Please enter your Name</label>
-        <input id='name' name='name' type="text" onChange={(e) => {setUsername(e.target.value)}}/>
-        <label htmlFor='agency'>Please enter your Agency Name</label>
-        <input id='agency' name='agency' type="text" onChange={(e) => {setAgencyName(e.target.value)}}/>
-        <button>Submit</button>
+    <div className="signed-up">
+        <form onSubmit={handleSubmit} className="signed-up__content">
+        <h2 className="signed-up__content__title">You Successfully Created an Account!</h2>
+        <div className="signed-up__content__item">
+        <label htmlFor='name' className="signed-up__content__item__label">Please enter your Name</label>
+        <input id='name' name='name' type="text" className="signed-up__content__item__input" onChange={(e) => {setUsername(e.target.value)}}/>
+        </div>
+        <div className="signed-up__content__item">
+        <label htmlFor='agency' className="signed-up__content__item__label">Please enter your Agency Name</label>
+        <input id='agency' name='agency' type="text" className="signed-up__content__item__input" onChange={(e) => {setAgencyName(e.target.value)}}/>
+        </div>
+        <button className="signed-up__content__button">Submit</button>
         </form>
+        <h3>{error}</h3>
     </div>
   )
 }

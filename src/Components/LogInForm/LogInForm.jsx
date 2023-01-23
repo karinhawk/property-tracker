@@ -12,13 +12,11 @@ const LogInForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(loginEmail, loginPassword);
-
         try {
             console.log(loginEmail, loginPassword);
             setError("")
             await login(loginEmail, loginPassword)
-            console.log(loginEmail, loginPassword);
+            // console.log(loginEmail, loginPassword);
             navigate("/welcome")
         } catch (e) {
             console.log(e.message);
@@ -30,7 +28,7 @@ const LogInForm = () => {
     return (
         <div className="form">
             <h2 className="form__title">Log In</h2>
-            <form onSubmit={handleSubmit} className="form__content">
+            <form onSubmit={(e) => handleSubmit(e)} className="form__content">
                 <div className="form__content__email">
                 <label htmlFor="email" className="form__content__email__label">Email</label>
                 <input type="text" name="email" id="email" className="form__content__email__input" onChange={(e) => { setLoginEmail(e.target.value) }} />
@@ -39,7 +37,7 @@ const LogInForm = () => {
                 <label htmlFor="password" className="form__content__password__label">Password</label>
                 <input type="text" name="password" id="password" className="form__content__password__input" onChange={(e) => { setLoginPassword(e.target.value) }} />
                 </div>
-                <button className="form__content__submit">Log In</button>
+                <button className="form__content__submit" type="submit">Log In</button>
                 <h3 className="form__content__error">{error ? error : ""}</h3>            </form>
             {/* <button className="form__content__logout" onClick={logout}>log out</button> */}
         </div>

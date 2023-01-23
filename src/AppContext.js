@@ -46,7 +46,6 @@ export function AuthAndDBProvider({ children }) {
     
     const querySnapshot = await getDocs(queryRef);
     querySnapshot.forEach((doc) => {
-      console.log(doc.data().agency);
       setUserInfo({
         agency: doc.data().agency,
         email: doc.data().email,

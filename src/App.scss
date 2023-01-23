@@ -9,10 +9,14 @@
   text-align: center;
 }
 
+a {
+  text-decoration: none;
+}
+
 button {
   border: none;
   border-radius: 0.2rem;
-  background-color: rgb(24, 130, 172);
+  background-color: $dark-blue;
   color: white;
   padding: 0.3rem;
 }

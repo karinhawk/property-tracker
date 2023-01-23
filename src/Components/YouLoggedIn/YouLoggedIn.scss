@@ -1,0 +1,15 @@
+.logged-in {
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    &__greeting {
+        width: 70vw;
+    }
+    &__button {
+        height: 10vh;
+        width: 40vw;
+        font-size: 1.5rem;
+        }
+}
