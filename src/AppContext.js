@@ -19,6 +19,7 @@ export function AuthAndDBProvider({ children }) {
   const [savedProperties, setSavedProperties] = useState();
   const [agencyProperties, setAgencyProperties] = useState();
   const [chosenProperty, setChosenProperty] = useState();
+  const [pending, setPending] = useState(true)
   const navigate = useNavigate()
 
   //-------AUTHORIZATION---------
@@ -44,6 +45,22 @@ export function AuthAndDBProvider({ children }) {
     const dbUserRef = collection(db, "users")
     const queryRef = query(dbUserRef, where("email", "==", user.user.email))
     
+    const querySnapshot = await getDocs(queryRef);
+    querySnapshot.forEach((doc) => {
+      setUserInfo({
+        agency: doc.data().agency,
+        email: doc.data().email,
+        id: doc.data().id,
+        name: doc.data().name,
+        password: doc.data().password,
+        // profilePicture: doc.profilePicture
+      })
+    })
+  }
+
+  const grabUser = async(currentUser) => {
+    const dbUserRef = collection(db, "users")
+    const queryRef = query(dbUserRef, where("email", "==", currentUser.email))
     const querySnapshot = await getDocs(queryRef);
     querySnapshot.forEach((doc) => {
       setUserInfo({
@@ -109,10 +126,17 @@ export function AuthAndDBProvider({ children }) {
 //need to uselocal storge to persist across refreshes
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
-            setCurrentUser(user);
+            setCurrentUser(user)
+            grabUser(currentUser).then(setPending(false))
+          // setPending(false)
         });
 
+
     }, [currentUser])
+
+    if(pending){
+      return <>Loading...</>
+    }
 
     //-------PROPERTIES DATABASE---------
 

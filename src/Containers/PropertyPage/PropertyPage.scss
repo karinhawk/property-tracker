@@ -1,0 +1,45 @@
+.property-page {
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__content {
+        height: fit-content;
+        width: 80vw;
+        display: flex;
+        flex-direction: column;
+        justify-content:space-between;
+        align-items: center;
+        padding: 1rem;
+        margin: 1rem;
+        &__address {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        &__image {
+            width: 80vw;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+        &__price {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        &__desc {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        &__extra {
+            width: 85vw;
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1rem;
+        }
+        &__agency {
+            font-size: 0.75rem;
+        }
+        &__date {
+            font-size: 0.75rem;
+        }
+    }
+}

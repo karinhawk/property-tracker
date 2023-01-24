@@ -2,7 +2,7 @@ import "./PropertyList.scss"
 import React, { useEffect } from 'react'
 import PropertyCard from '../PropertyCard/PropertyCard';
 
-const PropertyList = ({propertyArr}) => {
+const PropertyList = ({propertyArr, emptyMessage}) => {
 
 //design to hold ALL properties - filters can pass down
 //map property cards - with dif conditions
@@ -22,7 +22,7 @@ console.log(propertyArr);
               <PropertyCard dateListed={property.dateListed} agency={property.agency} address={property.address} desc={property.desc} price={property.price} bedrooms={property.bedrooms} bathrooms={property.bathrooms} receptions={property.receptions} images={property.images}/>
             </div>
           )
-        }): <h2>loading</h2>}
+        }): <h3 className="list__empty">{emptyMessage}</h3>}
       </div>
   )
 }

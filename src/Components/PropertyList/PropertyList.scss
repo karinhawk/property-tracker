@@ -3,4 +3,9 @@
     flex-direction: column;
     align-items: center;
     width: 100vw;
+
+    &__empty {
+        padding: 1rem;
+        font-style: italic;
+    }
 }

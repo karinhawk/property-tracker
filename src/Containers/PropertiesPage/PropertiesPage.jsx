@@ -12,6 +12,7 @@ useEffect(() => {
 console.log(allProperties);
   return (
     <div className='properties-page'>
+      <h2 className="properties-page__title">Current properties</h2>
         <PropertyList propertyArr={allProperties}/>
     </div>
   )

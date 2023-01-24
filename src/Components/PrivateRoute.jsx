@@ -5,6 +5,7 @@ import { auth } from "../firebase.js"
 
 const PrivateRoute = ({children}) => {
     const {currentUser} = useAppContext()
+    
     console.log(currentUser);
   return currentUser ? children : <Navigate to="/signup-signin" />;
 }

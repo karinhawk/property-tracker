@@ -61,6 +61,7 @@ const PropertyCard = ({ dateListed, agency, address, desc, price, bedrooms, bath
       <h3 className="card__agency">Listed by: {agency}</h3>
       <h3 className="card__date">Listed on: {dateListed}</h3>
       </div> */}
+      <div className="card__buttons">
       <button onClick={isSaved ?
         () => {
           unsaveProperty(address).then(checkIfPropertySaved(address).then((result) => {
@@ -76,6 +77,7 @@ const PropertyCard = ({ dateListed, agency, address, desc, price, bedrooms, bath
       {property.agency == userInfo.agency && <Link to={`/edit-property`} state={property}>
         <button>Edit property</button>
       </Link>}
+      </div>
     </div>
   )
 }
