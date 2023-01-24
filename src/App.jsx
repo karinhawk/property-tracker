@@ -4,7 +4,6 @@ import LandingPage from './Containers/LandingPage/LandingPage';
 import Account from './Containers/Account/Account';
 import PrivateRoute from './Components/PrivateRoute';
 import Home from './Containers/Home/Home';
-import {auth} from "./firebase.js"
 import { useState } from 'react';
 import { AuthAndDBProvider } from "./AppContext.js"
 import Welcome from './Containers/Welcome/Welcome';
