@@ -1,7 +1,7 @@
 @use "../../variables" as *;
 
 .add-property {
-    height: 85vh;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
