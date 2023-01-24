@@ -1,0 +1,42 @@
+@use "../../variables" as *;
+
+.edit-form {
+    width: 50vw;
+    margin: auto;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    
+    &__button__disabled {
+        margin: 1rem;
+        background-color: $grey;
+    }
+
+    &__button__active {
+        margin: 1rem;
+    }
+
+    &__div {
+        width: 50vw;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 0.6rem;
+        &__label {
+
+        }
+        &__input {
+
+            &--files {
+            }
+
+        }
+    }
+}
+
+.delete {
+    margin: 1rem;
+    background-color: $orange;
+}

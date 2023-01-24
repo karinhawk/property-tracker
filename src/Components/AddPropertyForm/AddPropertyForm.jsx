@@ -1,15 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAppContext } from '../../AppContext'
 import "./AddPropertyForm.scss"
 
-const AddPropertyForm = ({userInfo}) => {
+const AddPropertyForm = ({ userInfo }) => {
 
-            //upload image
-            //date listed - generate date and time to put into db
-            //agency - from users db
-            //MUST have address, desc, price, bedrooms, bathrooms, r rooms, agency, and date listed
-    const {addProperty, uploadImage} = useAppContext()
-    
+    const { addProperty, uploadImage } = useAppContext()
 
     const [isDisabled, setIsDisabled] = useState(true)
     const [street, setStreet] = useState("");
@@ -21,50 +17,77 @@ const AddPropertyForm = ({userInfo}) => {
     const [bathrooms, setBathrooms] = useState("");
     const [receptions, setReceptions] = useState("");
     const [imageUpload, setImageUpload] = useState(null);
+    const navigate = useNavigate()
 
-            const handleSubmit = async(e) => {
-                e.preventDefault()
-                console.log(userInfo);
-                if(street !== "" & city !== "" & postcode !== "" & desc !== "" & price !== "" & bedrooms !== "" & bathrooms !== "" & receptions !== "" & imageUpload !== null){
-                    try{
-                        const address = `${street}, ${city}, ${postcode.toUpperCase()}`
-                        const imagesArr = Array.from(imageUpload);
-                        console.log(address, desc, price, bedrooms, bathrooms, receptions);
-                        await uploadImage(imagesArr).then((urlArr) => addProperty(address, desc, price, bedrooms, bathrooms, receptions, urlArr))                    
-                    }catch(error){
-                        console.log(error.message)
-                    }
-                }
+    useEffect(() => {
+        if (street !== "" & city !== "" & postcode !== "" & desc !== "" & price !== "" & bedrooms !== "" & bathrooms !== "" & receptions !== "" & imageUpload !== null) {
+            setIsDisabled(false)
+        } else {
+            setIsDisabled(true)
+        }
+    }, [street, city, postcode, desc, price, bedrooms, bathrooms, receptions, imageUpload])
+    
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        console.log(userInfo);
+        if (street !== "" & city !== "" & postcode !== "" & desc !== "" & price !== "" & bedrooms !== "" & bathrooms !== "" & receptions !== "" & imageUpload !== null) {
+            try {
+                const address = `${street}, ${city}, ${postcode.toUpperCase()}`
+                const imagesArr = Array.from(imageUpload);
+                console.log(address, desc, price, bedrooms, bathrooms, receptions);
+                await uploadImage(imagesArr).then((urlArr) => addProperty(address, desc, price, bedrooms, bathrooms, receptions, urlArr))
+                navigate("/account")
+            } catch (error) {
+                console.log(error.message)
             }
+        }
+    }
 
-            //active inactive buttons
+    //active inactive buttons
 
 
     return (
         <div>
-            <form className='form' onSubmit={handleSubmit}>
-                <div className='form__address'>
-                    <h3>Address</h3>
-                        <label htmlFor="street">Street Name</label>
-                        <input type="text" name="street" id="street" onChange={(e) => {setStreet(e.target.value)}} />
-                        <label htmlFor="city">Town/City</label>
-                        <input type="text" name="city" id="city" onChange={(e) => {setCity(e.target.value)}} />
-                        <label htmlFor="postcode">Postcode</label>
-                        <input type="text" name="postcode" id="postcode" onChange={(e) => {setPostcode(e.target.value)}}/>
+            <form className='add-form' onSubmit={handleSubmit}>
+                <div className='add-form__div'>
+                    <label htmlFor="street" className='add-form__div__label'>Street Name</label>
+                    <input type="text" name="street" id="street" className='add-form__div__input' onChange={(e) => { setStreet(e.target.value) }} />
                 </div>
-                <label htmlFor="desc">Description</label>
-                <input type="text" name="desc" id="desc" onChange={(e) => {setDesc(e.target.value)}}/>
-                <label htmlFor="price">Guide Price £</label>
-                <input type="text" name="price" id="price" onChange={(e) => {setPrice(e.target.value)}}/>
-                <label htmlFor="bedrooms">Bedrooms</label>
-                <input type="text" name="bedrooms" id="bedrooms" onChange={(e) => {setBedrooms(e.target.value)}}/>
-                <label htmlFor="bathrooms">Bathrooms</label>
-                <input type="text" name="bathrooms" id="bathrooms" onChange={(e) => {setBathrooms(e.target.value)}}/>
-                <label htmlFor="receptions">Reception Rooms</label>
-                <input type="text" name="receptions" id="receptions" onChange={(e) => {setReceptions(e.target.value)}}/>
-                <label htmlFor="image">Property picture</label>
-                <input type="file" name='image' id='image' multiple onChange={(e) => {setImageUpload(e.target.files)}}/>
-                <button  className={isDisabled ? "disabled" : "active"}>Add Property</button>
+                <div className='add-form__div'>
+                    <label htmlFor="city" className='add-form__div__label'>Town/City</label>
+                    <input type="text" name="city" id="city" className='add-form__div__input' onChange={(e) => { setCity(e.target.value) }} />
+                </div>
+                <div className='add-form__div'>
+                    <label htmlFor="postcode" className='add-form__div__label'>Postcode</label>
+                    <input type="text" name="postcode" id="postcode" className='add-form__div__input' onChange={(e) => { setPostcode(e.target.value) }} />
+                </div>
+                <div className='add-form__div'>
+                    <label htmlFor="desc" className='add-form__div__label'>Description</label>
+                    <input type="text" name="desc" id="desc" className='add-form__div__input' onChange={(e) => { setDesc(e.target.value) }} />
+                </div>
+                <div className='add-form__div'>
+                    <label htmlFor="price" className='add-form__div__label'>Guide Price £</label>
+                    <input type="text" name="price" id="price" className='add-form__div__input' onChange={(e) => { setPrice(e.target.value) }} />
+                </div>
+                <div className='add-form__div'>
+                    <label htmlFor="bedrooms" className='add-form__div__label'>Bedrooms</label>
+                    <input type="text" name="bedrooms" id="bedrooms" className='add-form__div__input' onChange={(e) => { setBedrooms(e.target.value) }} />
+                </div>
+                <div className='add-form__div'>
+                    <label htmlFor="bathrooms" className='add-form__div__label'>Bathrooms</label>
+                    <input type="text" name="bathrooms" id="bathrooms" className='add-form__div__input' onChange={(e) => { setBathrooms(e.target.value) }} />
+                </div>
+                <div className='add-form__div'>
+                    <label htmlFor="receptions" className='add-form__div__label'>Reception Rooms</label>
+                    <input type="text" name="receptions" id="receptions" className='add-form__div__input' onChange={(e) => { setReceptions(e.target.value) }} />
+                </div>
+                <div className='add-form__div'>
+                    <label htmlFor="image" className='add-form__div__label'>Property picture</label>
+                    <input type="file" name='image' id='image' className='add-form__div__input' multiple onChange={(e) => { setImageUpload(e.target.files) }} />
+                </div>
+                <button className={isDisabled ? "add-form__button__disabled" : "add-form__button__active"}>Add Property</button>
             </form>
         </div>
     )
