@@ -23,4 +23,26 @@
         width: 85vw;
         line-height: 1.3rem;
     }
+
+    &__button {
+        height: 8vh;
+        width: 25vw;
+        margin: 2rem;
+    }
+}
+
+@media screen and (min-width: 720px) {
+
+    .home {
+
+        &__image {
+            width: 40vw;
+            height: auto;
+        }
+
+        &__button {
+            height: 7vh;
+            width: 10vw;
+        }
+    }
 }

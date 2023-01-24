@@ -1,4 +1,4 @@
-@use "../../variables" as *;
+@use "../../variables"as *;
 
 .form {
     height: fit-content;
@@ -22,23 +22,23 @@
             flex-direction: column;
             justify-content: space-around;
             align-items: flex-start;
-            &__label {
 
-            }
+            &__label {}
 
             &__input {
                 width: 70vw;
             }
         }
+
         &__password {
             width: 70vw;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
             align-items: flex-start;
-            &__label {
 
-            }
+            &__label {}
+
             &__input {
                 width: 70vw;
             }
@@ -48,4 +48,39 @@
             width: 70vw;
         }
     }
+}
+
+@media screen and (min-width: 720px) {
+
+    .form {
+        width: 32vw;
+
+        &__content {
+            height: 40vh;
+            width: 32vw;
+
+            &__email {
+                width: 30vw;
+
+                &__input {
+                    height: 4vh;
+                    width: 30vw;
+                }
+            }
+            &__password {
+                width: 30vw;
+
+                &__input {
+                    height: 4vh;
+                    width: 30vw;
+                }
+            }
+            &__submit {
+                height: 4vh;
+                width: 30vw;
+            }
+        }
+
+    }
+
 }

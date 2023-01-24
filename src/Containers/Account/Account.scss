@@ -56,3 +56,44 @@
     background-color: $orange;
 }
 }
+
+@media screen and (min-width: 720px) {
+    .account {
+        align-items: center;
+
+
+        &__content {
+            width: 30vw;
+            align-items: center;
+
+            &__info {
+                width: 65vw;
+                flex-direction: row;
+                padding: 1rem;
+                // margin: auto;
+            }
+            &__top {
+                width: 30vw;
+            }
+
+            &__buttons {
+                width: 30vw;
+                flex-direction: column;
+            }
+            &__button {
+                margin: 1rem;
+            }
+
+            &__user-content {
+                margin: 0;
+            }
+
+
+        }
+    
+        &__logout {
+            height: 10vh;
+            width: 7vw;
+        }
+    }
+}

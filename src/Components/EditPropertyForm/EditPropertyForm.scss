@@ -28,7 +28,7 @@
 
         }
         &__input {
-
+            width: 50vw;
             &--files {
             }
 
@@ -39,4 +39,15 @@
 .delete {
     margin: 1rem;
     background-color: $orange;
+}
+
+@media screen and (min-width: 720px) {
+    .edit-form {
+        width: 100vw;
+
+
+        &__div {
+            align-items: center;
+        }
+    }
 }

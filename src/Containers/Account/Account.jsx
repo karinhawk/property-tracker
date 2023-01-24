@@ -26,18 +26,20 @@ const Account = () => {
       <h2 className="account__banner">Account</h2>
       {currentUser &&
         <div className="account__content">
-          <div className="account__content__info">
-          <h2 className="account__content__name">{userInfo.name}</h2>
-          <h3 className="account__content__agency">{userInfo.agency}</h3>
-          <div className="account__content__buttons">
-            <Link to="/edit-account">
-              <button className="account__content__button">Change account details</button>
-            </Link>
-            <Link to="/add-property">
-              <button className="account__content__button">Add Property</button>
-            </Link>
-          </div>
-          </div>
+            <div className="account__content__info">
+              <div className="account__content__top">
+                <h2 className="account__content__name">{userInfo.name}</h2>
+                <h3 className="account__content__agency">{userInfo.agency}</h3>
+              </div>
+              <div className="account__content__buttons">
+                <Link to="/edit-account">
+                  <button className="account__content__button">Change account details</button>
+                </Link>
+                <Link to="/add-property">
+                  <button className="account__content__button">Add Property</button>
+                </Link>
+              </div>
+            </div>
           <h3 className="account__content__user-content">All Properties owned by {userInfo.agency}</h3>
           {agencyProperties && <PropertyList propertyArr={agencyProperties} emptyMessage={"This agency has not uploaded any properties yet. Add properties at the top of the page."} />}
           <h3 className="account__content__user-content">All properties saved by {userInfo.name}</h3>

@@ -45,7 +45,7 @@ const SignUpForm = () => {
             <input type="text" name="password" id="password" className="form__content__item__input" onChange={(e) => {setRegisterPassword(e.target.value)}}/>
             </div>
             <div className="form__content__item">
-            <label htmlFor="password" className="form__content__item__label">Password</label>
+            <label htmlFor="password" className="form__content__item__label">Confirm Password</label>
             <input type="text" name="password2" id="password2" className="form__content__item__input" onChange={(e) => {setPasswordCheck(e.target.value)}}/>
             </div>
             <button className="form__content__submit">Create Account</button>

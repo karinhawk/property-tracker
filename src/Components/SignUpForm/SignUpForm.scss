@@ -31,3 +31,30 @@
         }
     }
 }
+
+@media screen and (min-width: 720px) {
+
+    .form {
+        width: 32vw;
+
+        &__content {
+            height: 40vh;
+            width: 32vw;
+
+            &__item {
+                width: 30vw;
+
+                &__input {
+                    height: 4vh;
+                    width: 30vw;
+                }
+            }
+            &__submit {
+                height: 5vh;
+                width: 30vw;
+            }
+        }
+
+    }
+
+}

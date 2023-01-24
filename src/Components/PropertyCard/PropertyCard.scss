@@ -59,3 +59,29 @@
         justify-content: space-between;
     }
 }
+
+@media screen and (min-width: 720px) {
+    .card {
+        width: 35vw;
+
+        &__crop {
+            height: 40vh;
+            width: 35vw;
+            overflow: hidden;
+        }
+
+        &__image {
+            width: 35vw;
+        }
+
+        &__rooms {
+            width: 30vw;
+        }
+        &__address {
+            margin: 1rem;
+        }
+        &__buttons {
+            width: 20vw;
+        }
+    }
+}
