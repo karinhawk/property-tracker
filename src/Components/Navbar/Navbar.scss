@@ -1,12 +1,17 @@
+@use "../../variables" as *;
+
 .navbar {
     height: 10vh;
+    width: 100vw;
     display: flex;
     align-items: center;
     justify-content: space-around;
+    background-color: $dark-blue;
     &__item {
-        
-        &:hover {
-
-        }
+        color: $off-white;
+        font-size: 1rem;
+        // &:active {
+        //     background-color: $mid-blue;
+        // }
     }
 }

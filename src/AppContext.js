@@ -40,9 +40,9 @@ export function AuthAndDBProvider({ children }) {
   }
 
   const login = async(email, password) => {
-    signInWithEmailAndPassword(auth, email, password)
+    const user = await signInWithEmailAndPassword(auth, email, password)
     const dbUserRef = collection(db, "users")
-    const queryRef = query(dbUserRef, where("email", "==", currentUser.email))
+    const queryRef = query(dbUserRef, where("email", "==", user.user.email))
     
     const querySnapshot = await getDocs(queryRef);
     querySnapshot.forEach((doc) => {
@@ -107,13 +107,12 @@ export function AuthAndDBProvider({ children }) {
   }
 
 //need to uselocal storge to persist across refreshes
-//need to grab user that matches from db? (in auth state changed???)
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             setCurrentUser(user);
         });
 
-    }, [])
+    }, [currentUser])
 
     //-------PROPERTIES DATABASE---------
 

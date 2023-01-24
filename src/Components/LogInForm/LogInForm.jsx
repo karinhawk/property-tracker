@@ -1,5 +1,5 @@
 import "./LogInForm.scss"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../AppContext'
 
@@ -10,19 +10,29 @@ const LogInForm = () => {
     const [error, setError] = useState("")
     const navigate = useNavigate()
 
+    let email = "";
+    let password = "";
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            console.log(loginEmail, loginPassword);
+            console.log(email, password);
             setError("")
-            await login(loginEmail, loginPassword)
-            // console.log(loginEmail, loginPassword);
+            await login(email, password)
             navigate("/welcome")
+            
         } catch (e) {
             console.log(e.message);
             setError("Failed to log in")
         }
     }
+
+    useEffect(() => {
+        email = loginEmail;
+        password = loginPassword;
+    }, [loginPassword])
+    
+
 
 
     return (
